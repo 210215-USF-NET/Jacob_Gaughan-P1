@@ -37,7 +37,7 @@ namespace StoreDL
                 .Property(product => product.Id)
                 .ValueGeneratedOnAdd();
             modelBuilder.Entity<Inventory>()
-               .Property(Inventory => Inventory.Id)
+               .Property(inventory => inventory.Id)
                .ValueGeneratedOnAdd();
             modelBuilder.Entity<Order>()
                .Property(order => order.Id)

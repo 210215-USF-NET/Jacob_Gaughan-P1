@@ -13,6 +13,6 @@ namespace StoreDL
 
         Customer GetCustomerByEmail(string email);
 
-
+        Customer CheckCustomerLoginInfo(string email, string password);
     }
 }

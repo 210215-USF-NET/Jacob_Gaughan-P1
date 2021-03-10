@@ -10,6 +10,7 @@ namespace StoreModels
     {
         private string customerName;
         private string customerEmail;
+        private string customerPassword;
         public int Id { get; set; }
         public string CustomerName
         {
@@ -49,6 +50,18 @@ namespace StoreModels
                 }
 
                 customerEmail = value;
+            }
+        }
+
+        public string CustomerPassword
+        {
+            get
+            {
+                return customerPassword;
+            }
+            set
+            {
+                customerPassword = value;
             }
         }
 

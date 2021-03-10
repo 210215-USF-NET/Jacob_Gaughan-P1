@@ -11,9 +11,9 @@ namespace StoreBL
         public CustomerBL(ICustomerRepository repo){
             _repo = repo;
         }
-        public void AddCustomer(Customer newCustomer)
+        public Customer AddCustomer(Customer newCustomer)
         {
-            _repo.AddCustomer(newCustomer);
+            return _repo.AddCustomer(newCustomer);
         }
 
         public List<Customer> GetCustomers()
@@ -24,6 +24,11 @@ namespace StoreBL
         public Customer GetCustomerByEmail(string email)
         {
             return _repo.GetCustomerByEmail(email);
+        }
+
+        public Customer CheckCustomerLoginInfo(string email, string password)
+        {
+            return _repo.CheckCustomerLoginInfo(email, password);
         }
 
         public Customer DeleteCustomer(Customer customer2BDeleted)

@@ -23,6 +23,11 @@ namespace StoreMVC.Controllers
             return View();
         }
 
+        public IActionResult Locations()
+        {
+            return View("Locations");
+        }
+
         public IActionResult Privacy()
         {
             return View();

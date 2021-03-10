@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreBL;
+using StoreModels;
 using StoreMVC.Models;
 using System;
 using System.Collections.Generic;
@@ -21,34 +22,62 @@ namespace StoreMVC.Controllers
         // GET: CustomerController
         public ActionResult Index()
         {
-            return View(_customerBL.GetCustomers().Select(customer => _mapper.cast2CustomerIndexVM(customer)).ToList());
+            return View();
         }
 
         // GET: CustomerController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(string email)
         {
+            return View(_mapper.cast2CustomerCRVM(_customerBL.GetCustomerByEmail(email)));
+        }
+
+        public ActionResult Login()
+        {
+            return View("Login");
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AttemptLogin(Customer customer2Check)
+        {
+            if(ModelState.IsValid)
+            {
+                Customer customer = _customerBL.CheckCustomerLoginInfo(customer2Check.CustomerEmail, customer2Check.CustomerPassword);
+                if (customer == null)
+                {
+                    return View();
+                }
+                else
+                {
+                    return View(_mapper.cast2CustomerCRVM(_customerBL.GetCustomerByEmail(customer2Check.CustomerEmail)));
+                }
+            }
             return View();
         }
 
         // GET: CustomerController/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         // POST: CustomerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(CustomerCRVM newCustomer)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _customerBL.AddCustomer(_mapper.cast2Customer(newCustomer));
+                    return RedirectToAction(nameof(Index));
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: CustomerController/Edit/5

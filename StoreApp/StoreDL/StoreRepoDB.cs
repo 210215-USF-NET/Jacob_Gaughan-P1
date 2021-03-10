@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StoreDL
 {
-    public class StoreRepoDB : ICustomerRepository, ILocationRepository, IProductRepository, IOrderRepository, IInventoryRepository
+    public class StoreRepoDB : ICustomerRepository, ILocationRepository, IProductRepository, IOrderRepository, IInventoryRepository, IManagerRepository
     {
         private readonly StoreDBContext _context;
 
@@ -69,6 +69,10 @@ namespace StoreDL
             return _context.Customers.AsNoTracking().FirstOrDefault(customer => customer.CustomerEmail == email);
         }
 
+        public Customer CheckCustomerLoginInfo(string email, string password)
+        {
+            return _context.Customers.AsNoTracking().FirstOrDefault(customer => customer.CustomerEmail == email && customer.CustomerPassword == password);
+        }
         public List<Customer> GetCustomers()
         {
             return _context.Customers.AsNoTracking().Select(customer => customer).ToList();
@@ -128,6 +132,28 @@ namespace StoreDL
 
             //This method clears the change tracker to drop all tracked entities
             _context.ChangeTracker.Clear();
+        }
+
+        public List<Manager> GetManagers()
+        {
+            return _context.Managers.AsNoTracking().Select(manager => manager).ToList();
+        }
+
+        public Manager AddManager(Manager newManager)
+        {
+            _context.Managers.Add(newManager);
+            _context.SaveChanges();
+            return newManager;
+        }
+
+        public Manager DeleteManager(Manager manager2BDeleted)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Manager GetManagerByEmail(string email)
+        {
+            throw new NotImplementedException();
         }
     }
 }

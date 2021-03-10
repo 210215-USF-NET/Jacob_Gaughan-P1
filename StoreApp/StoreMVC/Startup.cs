@@ -34,14 +34,14 @@ namespace StoreMVC
             services.AddScoped<IOrderRepository, StoreRepoDB>();
             services.AddScoped<IProductRepository, StoreRepoDB>();
             services.AddScoped<IInventoryRepository, StoreRepoDB>();
-            //services.AddScoped<IManagerRepository, StoreRepoDB>();
+            services.AddScoped<IManagerRepository, StoreRepoDB>();
             services.AddScoped<ICustomerBL, CustomerBL>();
             services.AddScoped<ILocationBL, LocationBL>();
             services.AddScoped<IOrderBL, OrderBL>();
             services.AddScoped<IProductBL, ProductBL>();
             services.AddScoped<IInventoryBL, InventoryBL>();
             services.AddScoped<IMapper, Mapper>();
-            //services.AddScoped<IManagerBL, ManagerBL>();
+            services.AddScoped<IManagerBL, ManagerBL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
