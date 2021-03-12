@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreBL", "StoreBL\StoreBL.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreTests", "StoreTests\StoreTests.csproj", "{587B3F4F-1EB6-412C-83BE-C93522AED057}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreMVC", "StoreMVC\StoreMVC.csproj", "{0EF51B53-8E96-42D0-AD8D-16161C9BC1EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreMVC", "StoreMVC\StoreMVC.csproj", "{0EF51B53-8E96-42D0-AD8D-16161C9BC1EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

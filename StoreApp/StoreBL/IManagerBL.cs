@@ -5,7 +5,7 @@ namespace StoreBL
 {
     public interface IManagerBL
     {
-        void AddManager(Manager newManager);
+        Manager AddManager(Manager newManager);
         Manager DeleteManager(Manager manager2BDeleted);
         Manager GetManagerByEmail(string email);
         List<Manager> GetManagers();

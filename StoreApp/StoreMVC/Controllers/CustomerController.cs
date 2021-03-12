@@ -5,6 +5,7 @@ using StoreModels;
 using StoreMVC.Models;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,41 +15,53 @@ namespace StoreMVC.Controllers
     {
         private ICustomerBL _customerBL;
         private IMapper _mapper;
+
         public CustomerController(ICustomerBL customerBL, IMapper mapper)
         {
             _customerBL = customerBL;
             _mapper = mapper;
         }
         // GET: CustomerController
-        public ActionResult Index()
+        public ActionResult Index(CustomerIndexVM currentCustomer)
         {
-            return View();
+            ViewBag.currentCustomerEmail = currentCustomer.CustomerEmail;
+            return View(currentCustomer);
+        }
+        public ActionResult CustomerIndex(string email)
+        {
+            return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerByEmail(email)));
+        }
+        public ActionResult Details(CustomerCRVM currentCustomer)
+        {
+            ViewBag.currentCustomerEmail = currentCustomer.CustomerEmail;
+            return View(currentCustomer);
         }
 
-        // GET: CustomerController/Details/5
-        public ActionResult Details(string email)
+        public ActionResult ToDetails(string email)
         {
-            return View(_mapper.cast2CustomerCRVM(_customerBL.GetCustomerByEmail(email)));
+            ViewBag.currentCustomerEmail = email;
+            return RedirectToAction("Details", _mapper.cast2CustomerCRVM(_customerBL.GetCustomerByEmail(email)));
         }
 
         public ActionResult Login()
         {
             return View("Login");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AttemptLogin(Customer customer2Check)
+        public ActionResult Login(Customer customer2Check)
         {
             if(ModelState.IsValid)
             {
                 Customer customer = _customerBL.CheckCustomerLoginInfo(customer2Check.CustomerEmail, customer2Check.CustomerPassword);
-                if (customer == null)
+                if (customer != null)
                 {
-                    return View();
+                    return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(customer2Check));
                 }
                 else
                 {
-                    return View(_mapper.cast2CustomerCRVM(_customerBL.GetCustomerByEmail(customer2Check.CustomerEmail)));
+                    return View();
                 }
             }
             return View();
@@ -70,7 +83,7 @@ namespace StoreMVC.Controllers
                 try
                 {
                     _customerBL.AddCustomer(_mapper.cast2Customer(newCustomer));
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_mapper.cast2Customer(newCustomer)));
                 }
                 catch
                 {
@@ -81,24 +94,30 @@ namespace StoreMVC.Controllers
         }
 
         // GET: CustomerController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(string email)
         {
-            return View();
+            ViewBag.currentCustomerEmail = email;
+            return View(_mapper.cast2CustomerEditVM(_customerBL.GetCustomerByEmail(email)));
         }
 
         // POST: CustomerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(CustomerEditVM customer2Edit)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _customerBL.UpdateCustomer(_mapper.cast2Customer(customer2Edit));
+                    return RedirectToAction("ToDetails", customer2Edit.CustomerEmail);
+                }
+                catch
+                {
+                    return View();
+                }
             }
-            catch
-            {
-                return View();
-            }
+            return View();
         }
 
         // GET: CustomerController/Delete/5

@@ -11,9 +11,9 @@ namespace StoreBL
         public OrderBL(IOrderRepository repo){
             _repo = repo;
         }
-        public void AddOrder(Order newOrder)
+        public Order AddOrder(Order newOrder)
         {
-            _repo.AddOrder(newOrder);
+            return _repo.AddOrder(newOrder);
         }
         public List<Order> GetOrders()
         {

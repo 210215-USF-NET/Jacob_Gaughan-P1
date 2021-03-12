@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 namespace StoreMVC.Models
 {
     /// <summary>
-    /// Model for the index view of my customers 
+    /// Model for the index view of my locations
     /// </summary>
     public class LocationIndexVM
     {
+        public int Id { get; set; }
         [DisplayName("Address")]
         public string Address { get; set; }
         [DisplayName("City")]

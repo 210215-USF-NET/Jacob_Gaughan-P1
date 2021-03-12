@@ -11,9 +11,9 @@ namespace StoreBL
         public ProductBL(IProductRepository repo){
             _repo = repo;
         }
-        public void AddProduct(Product newProduct)
+        public Product AddProduct(Product newProduct)
         {
-            _repo.AddProduct(newProduct);
+            return _repo.AddProduct(newProduct);
         }
 
         public decimal GetProductPrice(int productId)

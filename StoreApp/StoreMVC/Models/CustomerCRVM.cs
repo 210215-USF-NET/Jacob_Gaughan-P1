@@ -10,10 +10,11 @@ using System.Threading.Tasks;
 namespace StoreMVC.Models
 {
     /// <summary>
-    /// Model for the index view of my customers 
+    /// Model for the Create/Read view of my customers 
     /// </summary>
     public class CustomerCRVM
     {
+        public int Id { get; set; }
         [DisplayName("Name")]
         [Required]
         public string CustomerName { get; set; }

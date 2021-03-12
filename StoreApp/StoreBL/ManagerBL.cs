@@ -12,9 +12,9 @@ namespace StoreBL
         {
             _repo = repo;
         }
-        public void AddManager(Manager newManager)
+        public Manager AddManager(Manager newManager)
         {
-            _repo.AddManager(newManager);
+            return _repo.AddManager(newManager);
         }
 
         public List<Manager> GetManagers()

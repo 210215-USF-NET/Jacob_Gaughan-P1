@@ -5,7 +5,7 @@ namespace StoreBL
     public interface IProductBL
     {
         List<Product> GetProducts();
-        void AddProduct(Product newProduct);
+        Product AddProduct(Product newProduct);
         decimal GetProductPrice(int productId);
         Product GetProductById(int productId);
     }

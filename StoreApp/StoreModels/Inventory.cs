@@ -10,33 +10,10 @@ namespace StoreModels
     {
         private int quantity;
         public int ProductId { get; set; }
+        public Product Product;
         public int LocationId { get; set; }
+        public Location Location;
         public int Id { get; set; }
-        public int Quantity
-        {
-            get
-            {
-                return quantity;
-            }
-            set
-            {
-                if (!IsValidQuantity(value))
-                {
-                    throw new ArgumentOutOfRangeException("Quantity must be a positive number.");
-                }
-                quantity = value;
-            }
-        }
-        public bool IsValidQuantity(int quantity)
-        {
-            if(quantity < 0)
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
+        public int Quantity { get; set; }
     }
 }

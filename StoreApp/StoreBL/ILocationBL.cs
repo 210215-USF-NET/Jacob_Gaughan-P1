@@ -5,8 +5,9 @@ namespace StoreBL
     public interface ILocationBL
     {
         List<Location> GetLocations();
-        void AddLocation(Location newLocation);
-        void DeleteLocation(Location newLocation);
+        Location AddLocation(Location newLocation);
+        Location DeleteLocation(Location newLocation);
         Location GetLocationById(int locId);
+        Location UpdateLocation(Location location2Bupdated);
     }
 }

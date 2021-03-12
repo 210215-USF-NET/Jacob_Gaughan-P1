@@ -1,0 +1,12 @@
+﻿@model StoreMVC.Models.CustomerIndexVM
+
+@{
+    Layout = "../Shared/CustomerLayout.cshtml";
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center py-lg-4">
+    <h1 class="display-4">Welcome @ViewBag.currentCustomerName to Jake's Ice Creamery</h1>
+    @* transition duration-300 ease-in-out rounded-lg p-3 bg-gray-200 hover:bg-gray-400 *@
+    @Html.ActionLink("Shop Locations", "CustomerIndex", "Location", new { email = ViewBag.currentCustomerEmail })
+</div>

@@ -22,15 +22,13 @@ namespace StoreBL
         {
             return _repo.GetInventoryById(prodId, locId);
         }
-        public void UpdateInventory(Inventory inventory2Bupdated, Inventory updatedInventory)
+        public Inventory UpdateInventory(Inventory inventory2Bupdated)
         {
-            inventory2Bupdated.Quantity = updatedInventory.Quantity;
-
-            _repo.UpdateInventory(inventory2Bupdated);
+            return _repo.UpdateInventory(inventory2Bupdated);
         }
-        public void AddInventory(Inventory newInventory)
+        public Inventory AddInventory(Inventory newInventory)
         {
-            _repo.AddInventory(newInventory);
+            return _repo.AddInventory(newInventory);
         }
     }
 }

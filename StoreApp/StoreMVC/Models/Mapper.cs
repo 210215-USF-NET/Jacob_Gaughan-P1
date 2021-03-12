@@ -12,14 +12,39 @@ namespace StoreMVC.Models
         {
             return new CustomerIndexVM
             {
+                Id = customer2Bcasted.Id,
                 CustomerName = customer2Bcasted.CustomerName,
-                CustomerEmail = customer2Bcasted.CustomerEmail
+                CustomerEmail = customer2Bcasted.CustomerEmail,
+                CustomerPassword = customer2Bcasted.CustomerPassword
             };
         }
         public Customer cast2Customer(CustomerCRVM customer2Bcasted)
         {
             return new Customer
             {
+                Id = customer2Bcasted.Id,
+                CustomerName = customer2Bcasted.CustomerName,
+                CustomerEmail = customer2Bcasted.CustomerEmail,
+                CustomerPassword = customer2Bcasted.CustomerPassword
+            };
+        }
+
+        public Customer cast2Customer(CustomerEditVM customer2Bcasted)
+        {
+            return new Customer
+            {
+                Id = customer2Bcasted.Id,
+                CustomerName = customer2Bcasted.CustomerName,
+                CustomerEmail = customer2Bcasted.CustomerEmail,
+                CustomerPassword = customer2Bcasted.CustomerPassword
+            };
+        }
+
+        public Customer cast2CustomerEditVM(Customer customer2Bcasted)
+        {
+            return new Customer
+            {
+                Id = customer2Bcasted.Id,
                 CustomerName = customer2Bcasted.CustomerName,
                 CustomerEmail = customer2Bcasted.CustomerEmail,
                 CustomerPassword = customer2Bcasted.CustomerPassword
@@ -30,6 +55,7 @@ namespace StoreMVC.Models
         {
             return new CustomerCRVM
             {
+                Id = customer.Id,
                 CustomerName = customer.CustomerName,
                 CustomerEmail = customer.CustomerEmail,
                 CustomerPassword = customer.CustomerPassword
@@ -40,6 +66,7 @@ namespace StoreMVC.Models
         {
             return new Location
             {
+                Id = location2Bcasted.Id,
                 Address = location2Bcasted.Address,
                 City = location2Bcasted.City,
                 State = location2Bcasted.State,
@@ -51,6 +78,7 @@ namespace StoreMVC.Models
         {
             return new LocationCRVM
             {
+                Id = location.Id,
                 Address = location.Address,
                 City = location.City,
                 State = location.State,
@@ -61,10 +89,33 @@ namespace StoreMVC.Models
         {
             return new LocationIndexVM
             {
+                Id = location2Bcasted.Id,
                 Address = location2Bcasted.Address,
                 City = location2Bcasted.City,
                 State = location2Bcasted.State,
                 Zipcode = location2Bcasted.Zipcode
+            };
+        }
+        public Location cast2Location(LocationEditVM location2Bcasted)
+        {
+            return new Location
+            {
+                Id = location2Bcasted.Id,
+                Address = location2Bcasted.Address,
+                City = location2Bcasted.City,
+                State = location2Bcasted.State,
+                Zipcode = location2Bcasted.Zipcode
+            };
+        }
+        public LocationEditVM cast2LocationEditVM(Location location)
+        {
+            return new LocationEditVM
+            {
+                Id = location.Id,
+                Address = location.Address,
+                City = location.City,
+                State = location.State,
+                Zipcode = location.Zipcode
             };
         }
     }

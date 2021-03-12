@@ -8,5 +8,6 @@ namespace StoreDL
         Location AddLocation(Location newLocation);
         Location GetLocationById(int locId);
         Location DeleteLocation(Location location2BDeleted);
+        Location UpdateLocation(Location location2Bupdated);
     }
 }

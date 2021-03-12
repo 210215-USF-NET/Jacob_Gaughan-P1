@@ -12,21 +12,24 @@ namespace StoreBL
             _repo = repo;
         }
 
-        public void AddLocation(Location newLocation)
+        public Location AddLocation(Location newLocation)
         {
-            _repo.AddLocation(newLocation);
+            return _repo.AddLocation(newLocation);
         }
-        public void DeleteLocation(Location location2BDeleted)
+        public Location DeleteLocation(Location location2BDeleted)
         {
-            _repo.DeleteLocation(location2BDeleted);
+            return _repo.DeleteLocation(location2BDeleted);
         }
         public List<Location> GetLocations()
         {
-            // TODO add Business Logic
             return _repo.GetLocations();
         }
         public Location GetLocationById(int locId){
             return _repo.GetLocationById(locId);
+        }
+        public Location UpdateLocation(Location location2Bupdated)
+        {
+            return _repo.UpdateLocation(location2Bupdated);
         }
     }
 }

@@ -5,6 +5,6 @@ namespace StoreBL
     public interface IOrderBL
     {
         List<Order> GetOrders();
-        void AddOrder(Order newOrder);
+        Order AddOrder(Order newOrder);
     }
 }

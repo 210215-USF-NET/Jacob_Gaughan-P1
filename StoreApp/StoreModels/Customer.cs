@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace StoreModels
@@ -8,100 +9,11 @@ namespace StoreModels
     /// </summary>
     public class Customer
     {
-        private string customerName;
-        private string customerEmail;
-        private string customerPassword;
         public int Id { get; set; }
-        public string CustomerName
-        {
-            get
-            {
-                return customerName;
-            }
-            set
-            {
-                if (IsEmptyOrNull(value))
-                {
-                    throw new ArgumentNullException("Customer name can't be empty or null.");
-                }
-                else if (!IsValidName(value))
-                {
-                    throw new Exception("Customer name can't have numbers in it.");
-                }
-                customerName = value;
-            }
-        }
-
-        public string CustomerEmail
-        {
-            get
-            {
-                return customerEmail;
-            }
-            set
-            {
-                if (IsEmptyOrNull(value))
-                {
-                    throw new ArgumentNullException("Customer email can't be empty or null.");
-                }
-                else if (!IsValidEmail(value))
-                {
-                    throw new Exception("Must be a valid email address.");
-                }
-
-                customerEmail = value;
-            }
-        }
-
-        public string CustomerPassword
-        {
-            get
-            {
-                return customerPassword;
-            }
-            set
-            {
-                customerPassword = value;
-            }
-        }
-
-        public bool IsEmptyOrNull(string str)
-        {
-            //check to see if email has the required characters
-            if (str == null || str.Equals(""))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        public bool IsValidName(string name)
-        {
-            //check to see if name contains numbers
-            if (Regex.IsMatch(name, ".*\\d+.*"))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        public bool IsValidEmail(string email)
-        {
-            //check to see if email has the required characters
-            if (Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public override string ToString() => $"Customer Information: \n\t Name: {this.CustomerName} \n\t Email: {this.CustomerEmail}";
+        public ICollection<Cart> Carts { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerEmail { get; set; }
+        public string CustomerPassword { get; set; }
     }
 }

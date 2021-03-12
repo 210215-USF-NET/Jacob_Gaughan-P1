@@ -9,5 +9,6 @@ namespace StoreBL
         Customer GetCustomerByEmail(string email);
         Customer DeleteCustomer(Customer customer2BDeleted);
         Customer CheckCustomerLoginInfo(string email, string password);
+        Customer UpdateCustomer(Customer customer2Bupdated);
     }
 }

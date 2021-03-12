@@ -35,5 +35,10 @@ namespace StoreBL
         {
             throw new NotImplementedException();
         }
+
+        public Customer UpdateCustomer(Customer customer2Bupdated)
+        {
+            return _repo.UpdateCustomer(customer2Bupdated);
+        }
     }
 }

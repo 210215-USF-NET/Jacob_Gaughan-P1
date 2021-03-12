@@ -5,9 +5,9 @@ namespace StoreBL
     public interface IInventoryBL
     {
         List<Inventory> GetInventories();
-        void UpdateInventory(Inventory inventory2Bupdated, Inventory updatedInventory);
+        Inventory UpdateInventory(Inventory inventory2Bupdated);
         int GetQuantity(int prodId, int locId);
         Inventory GetInventoryById(int prodId, int locId);
-        void AddInventory(Inventory newInventory);
+        Inventory AddInventory(Inventory newInventory);
     }
 }
