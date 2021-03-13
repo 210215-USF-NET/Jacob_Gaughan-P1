@@ -10,8 +10,8 @@ using StoreDL;
 namespace StoreDL.Migrations
 {
     [DbContext(typeof(StoreDBContext))]
-    [Migration("20210313055802_DBconfig2")]
-    partial class DBconfig2
+    [Migration("20210313092353_DBconfiguration5")]
+    partial class DBconfiguration5
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,33 +63,6 @@ namespace StoreDL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("StoreModels.Inventory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("LocationId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationId")
-                        .IsUnique();
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
-
-                    b.ToTable("Inventories");
                 });
 
             modelBuilder.Entity("StoreModels.Location", b =>
@@ -181,6 +154,9 @@ namespace StoreDL.Migrations
                     b.Property<string>("ProductName")
                         .HasColumnType("text");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
@@ -207,25 +183,6 @@ namespace StoreDL.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Location");
-                });
-
-            modelBuilder.Entity("StoreModels.Inventory", b =>
-                {
-                    b.HasOne("StoreModels.Location", "Location")
-                        .WithOne("Inventory")
-                        .HasForeignKey("StoreModels.Inventory", "LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StoreModels.Product", "Product")
-                        .WithOne("Inventory")
-                        .HasForeignKey("StoreModels.Inventory", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Location");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("StoreModels.Order", b =>
@@ -281,16 +238,9 @@ namespace StoreDL.Migrations
                 {
                     b.Navigation("Cart");
 
-                    b.Navigation("Inventory");
-
                     b.Navigation("Orders");
 
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("StoreModels.Product", b =>
-                {
-                    b.Navigation("Inventory");
                 });
 #pragma warning restore 612, 618
         }

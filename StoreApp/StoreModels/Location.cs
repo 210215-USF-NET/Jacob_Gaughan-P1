@@ -15,6 +15,5 @@ namespace StoreModels
         public ICollection<Order> Orders { get; set; }
         public ICollection<Product> Products { get; set; }
         public Cart Cart { get; set; }
-        public Inventory Inventory { get; set; }
     }
 }

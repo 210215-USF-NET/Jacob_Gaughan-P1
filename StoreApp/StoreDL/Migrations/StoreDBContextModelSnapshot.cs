@@ -63,33 +63,6 @@ namespace StoreDL.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("StoreModels.Inventory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int>("LocationId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LocationId")
-                        .IsUnique();
-
-                    b.HasIndex("ProductId")
-                        .IsUnique();
-
-                    b.ToTable("Inventories");
-                });
-
             modelBuilder.Entity("StoreModels.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -210,21 +183,6 @@ namespace StoreDL.Migrations
                     b.Navigation("Location");
                 });
 
-            modelBuilder.Entity("StoreModels.Inventory", b =>
-                {
-                    b.HasOne("StoreModels.Location", null)
-                        .WithOne("Inventory")
-                        .HasForeignKey("StoreModels.Inventory", "LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("StoreModels.Product", null)
-                        .WithOne("Inventory")
-                        .HasForeignKey("StoreModels.Inventory", "ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("StoreModels.Order", b =>
                 {
                     b.HasOne("StoreModels.Customer", "Customer")
@@ -278,16 +236,9 @@ namespace StoreDL.Migrations
                 {
                     b.Navigation("Cart");
 
-                    b.Navigation("Inventory");
-
                     b.Navigation("Orders");
 
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("StoreModels.Product", b =>
-                {
-                    b.Navigation("Inventory");
                 });
 #pragma warning restore 612, 618
         }

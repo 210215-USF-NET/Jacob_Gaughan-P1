@@ -38,13 +38,11 @@ namespace StoreMVC
             services.AddScoped<ILocationRepository, StoreRepoDB>();
             services.AddScoped<IOrderRepository, StoreRepoDB>();
             services.AddScoped<IProductRepository, StoreRepoDB>();
-            services.AddScoped<IInventoryRepository, StoreRepoDB>();
             services.AddScoped<IManagerRepository, StoreRepoDB>();
             services.AddScoped<ICustomerBL, CustomerBL>();
             services.AddScoped<ILocationBL, LocationBL>();
             services.AddScoped<IOrderBL, OrderBL>();
             services.AddScoped<IProductBL, ProductBL>();
-            services.AddScoped<IInventoryBL, InventoryBL>();
             services.AddScoped<IMapper, Mapper>();
             services.AddScoped<IManagerBL, ManagerBL>();
         }

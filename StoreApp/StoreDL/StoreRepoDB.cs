@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace StoreDL
 {
-    public class StoreRepoDB : ICustomerRepository, ILocationRepository, IProductRepository, IOrderRepository, IInventoryRepository, IManagerRepository, ICartRepository
+    public class StoreRepoDB : ICustomerRepository, ILocationRepository, IProductRepository, IOrderRepository, IManagerRepository, ICartRepository
     {
         private readonly StoreDBContext _context;
 
@@ -34,13 +34,6 @@ namespace StoreDL
             Customer oldCustomer = _context.Customers.Find(customer2Bupdated.Id);
             _context.Entry(oldCustomer).CurrentValues.SetValues(customer2Bupdated);
             return customer2Bupdated;
-        }
-
-        public Inventory AddInventory(Inventory newInventory)
-        {
-            _context.Inventories.Add(newInventory);
-            _context.SaveChanges();
-            return newInventory;
         }
 
         public Location AddLocation(Location newLocation)
@@ -91,16 +84,6 @@ namespace StoreDL
             return _context.Customers.AsNoTracking().Select(customer => customer).ToList();
         }
 
-        public List<Inventory> GetInventories()
-        {
-            return _context.Inventories.AsNoTracking().Select(inventory => inventory).ToList();
-        }
-
-        public Inventory GetInventoryById(int prodId, int locId)
-        {
-            return _context.Inventories.AsNoTracking().FirstOrDefault(inventory => inventory.ProductId == prodId && inventory.LocationId == locId);
-        }
-
         public Location GetLocationById(int locId)
         {
             return _context.Locations.AsNoTracking().FirstOrDefault(location => location.Id == locId);
@@ -134,18 +117,6 @@ namespace StoreDL
         public List<Product> GetProducts()
         {
             return _context.Products.AsNoTracking().Select(product => product).ToList();
-        }
-
-        public int GetQuantity(int prodId, int locId)
-        {
-            return GetInventoryById(prodId, locId).Quantity;
-        }
-
-        public Inventory UpdateInventory(Inventory inventory2Bupdated)
-        {
-            Inventory oldCustomer = _context.Inventories.Find(inventory2Bupdated.Id);
-            _context.Entry(oldCustomer).CurrentValues.SetValues(inventory2Bupdated);
-            return inventory2Bupdated;
         }
 
         public List<Manager> GetManagers()
@@ -205,11 +176,6 @@ namespace StoreDL
         public Cart GetCartById(int custId, int locId)
         {
             return _context.Carts.AsNoTracking().FirstOrDefault(cart => cart.CustomerId == custId && cart.LocationId == locId);
-        }
-
-        public List<Inventory> GetInventoriesAtLocation(int locId)
-        {
-            return _context.Inventories.AsNoTracking().Where(inventory => inventory.LocationId == locId).ToList();
         }
 
         public Customer GetCustomerById(int Id)

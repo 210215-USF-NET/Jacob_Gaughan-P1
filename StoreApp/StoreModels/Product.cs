@@ -9,7 +9,6 @@ namespace StoreModels
         public int LocationId { get; set; }
         public int Quantity { get; set; }
         public Location Location { get; set; }
-        public Inventory Inventory { get; set; }
         public Cart Cart { get; set; }
     }
 }
