@@ -1,30 +1,27 @@
-﻿using StoreDL;
-using StoreModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StoreMVC.Models
 {
     /// <summary>
-    /// Model for the Create/Read view of my customers 
+    /// Model for the Create/Read view of my Managers
     /// </summary>
-    public class CustomerCRVM
+    public class ManagerCRVM
     {
         public int Id { get; set; }
+
         [DisplayName("Name")]
         [Required]
-        public string CustomerName { get; set; }
+        public string ManagerName { get; set; }
+
         [DisplayName("Email")]
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string CustomerEmail { get; set; }
+        public string ManagerEmail { get; set; }
+
         [DisplayName("Password")]
         [Required]
         [DataType(DataType.Password)]
-        public string CustomerPassword { get; set; }
+        public string ManagerPassword { get; set; }
     }
 }

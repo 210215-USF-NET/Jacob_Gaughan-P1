@@ -3,11 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using StoreBL;
 using StoreModels;
 using StoreMVC.Models;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StoreMVC.Controllers
 {
@@ -21,46 +16,43 @@ namespace StoreMVC.Controllers
             _customerBL = customerBL;
             _mapper = mapper;
         }
+
         // GET: CustomerController
         public ActionResult Index(CustomerIndexVM currentCustomer)
         {
-            ViewBag.currentCustomerEmail = currentCustomer.CustomerEmail;
+            ViewBag.currentCustomer = currentCustomer.CustomerEmail;
             return View(currentCustomer);
         }
+
         public ActionResult CustomerIndex(string email)
         {
             return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerByEmail(email)));
         }
-        public ActionResult Details(CustomerCRVM currentCustomer)
-        {
-            ViewBag.currentCustomerEmail = currentCustomer.CustomerEmail;
-            return View(currentCustomer);
-        }
 
-        public ActionResult ToDetails(string email)
+        public ActionResult Details(string email)
         {
-            ViewBag.currentCustomerEmail = email;
-            return RedirectToAction("Details", _mapper.cast2CustomerCRVM(_customerBL.GetCustomerByEmail(email)));
+            return View(_mapper.cast2CustomerCRVM(_customerBL.GetCustomerByEmail(email)));
         }
 
         public ActionResult Login()
         {
-            return View("Login");
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(Customer customer2Check)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Customer customer = _customerBL.CheckCustomerLoginInfo(customer2Check.CustomerEmail, customer2Check.CustomerPassword);
                 if (customer != null)
                 {
-                    return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(customer2Check));
+                    return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerByEmail(customer2Check.CustomerEmail)));
                 }
                 else
                 {
+                    ViewBag.ErrorMessage = "Incorrect Email or Password!";
                     return View();
                 }
             }
@@ -82,11 +74,21 @@ namespace StoreMVC.Controllers
             {
                 try
                 {
-                    _customerBL.AddCustomer(_mapper.cast2Customer(newCustomer));
-                    return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_mapper.cast2Customer(newCustomer)));
+                    if (_customerBL.GetCustomerByEmail(newCustomer.CustomerEmail) == null)
+                    {
+                        Customer createdCustomer = _mapper.cast2Customer(newCustomer);
+                        _customerBL.AddCustomer(_mapper.cast2Customer(newCustomer));
+                        return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_mapper.cast2Customer(newCustomer)));
+                    }
+                    else
+                    {
+                        ViewBag.ErrorMessage = "An account already exists with this email!";
+                        return View();
+                    }
                 }
                 catch
                 {
+                    ViewBag.ErrorMessage = "Please enter the required fields!";
                     return View();
                 }
             }
@@ -96,7 +98,6 @@ namespace StoreMVC.Controllers
         // GET: CustomerController/Edit/5
         public ActionResult Edit(string email)
         {
-            ViewBag.currentCustomerEmail = email;
             return View(_mapper.cast2CustomerEditVM(_customerBL.GetCustomerByEmail(email)));
         }
 

@@ -14,6 +14,9 @@ namespace StoreDL
         Customer GetCustomerByEmail(string email);
 
         Customer CheckCustomerLoginInfo(string email, string password);
+
         Customer UpdateCustomer(Customer customer2Bupdated);
+
+        Customer GetCustomerById(int Id);
     }
 }

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using StoreBL;
-using StoreDL;
-using StoreModels;
 using StoreMVC.Models;
+using System.Dynamic;
+using System.Linq;
 
 namespace StoreMVC.Controllers
 {
@@ -28,6 +22,7 @@ namespace StoreMVC.Controllers
             _customerBL = customerBL;
             _mapper = mapper;
         }
+
         // GET: LocationController
         public ActionResult Index()
         {
@@ -36,12 +31,17 @@ namespace StoreMVC.Controllers
 
         public ActionResult CustomerIndex(string email)
         {
-            ViewBag.Customer = _customerBL.GetCustomerByEmail(ViewBag.currentCustomerEmail);
+            ViewBag.currentCustomerEmail = email;
             return View(_locationBL.GetLocations().Select(location => _mapper.cast2LocationIndexVM(location)).ToList());
         }
-        public ActionResult Shop(CustomerIndexVM CurrentCustomer, int locId)
+
+        public ActionResult Shop(int locId)
         {
-            return View(_mapper.cast2LocationIndexVM(_locationBL.GetLocationById(locId)));
+            dynamic locProdInv = new ExpandoObject();
+            locProdInv.Location = _locationBL.GetLocationById(locId);
+            locProdInv.Products = _productBL.GetProductsAtLocation(locId);
+            locProdInv.Inventories = _inventoryBL.GetInventoriesAtLocation(locId);
+            return View(locProdInv);
         }
 
         public ActionResult Details(int Id)

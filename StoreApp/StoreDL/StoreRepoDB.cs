@@ -80,6 +80,12 @@ namespace StoreDL
         {
             return _context.Customers.AsNoTracking().FirstOrDefault(customer => customer.CustomerEmail == email && customer.CustomerPassword == password);
         }
+
+        public Manager CheckManagerLoginInfo(string email, string password)
+        {
+            return _context.Managers.AsNoTracking().FirstOrDefault(manager => manager.ManagerEmail == email && manager.ManagerPassword == password);
+        }
+
         public List<Customer> GetCustomers()
         {
             return _context.Customers.AsNoTracking().Select(customer => customer).ToList();
@@ -118,6 +124,11 @@ namespace StoreDL
         public decimal GetProductPrice(int prodId)
         {
             return GetProductById(prodId).ProductPrice;
+        }
+
+        public List<Product> GetProductsAtLocation(int locId)
+        {
+            return _context.Products.AsNoTracking().Where(product => product.LocationId == locId).ToList();
         }
 
         public List<Product> GetProducts()
@@ -170,6 +181,15 @@ namespace StoreDL
             return location2Bupdated;
         }
 
+        public Manager UpdateManager(Manager manager2Bupdated)
+        {
+            Manager oldManager = _context.Managers.Find(manager2Bupdated.Id);
+            _context.Entry(oldManager).CurrentValues.SetValues(manager2Bupdated);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            return manager2Bupdated;
+        }
+
         public Cart AddCart(Cart newCart)
         {
             _context.Carts.Add(newCart);
@@ -185,6 +205,16 @@ namespace StoreDL
         public Cart GetCartById(int custId, int locId)
         {
             return _context.Carts.AsNoTracking().FirstOrDefault(cart => cart.CustomerId == custId && cart.LocationId == locId);
+        }
+
+        public List<Inventory> GetInventoriesAtLocation(int locId)
+        {
+            return _context.Inventories.AsNoTracking().Where(inventory => inventory.LocationId == locId).ToList();
+        }
+
+        public Customer GetCustomerById(int Id)
+        {
+            return _context.Customers.AsNoTracking().FirstOrDefault(customer => customer.Id == Id);
         }
     }
 }

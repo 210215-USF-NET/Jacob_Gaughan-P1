@@ -1,35 +1,11 @@
-﻿@model IEnumerable<StoreModels.Manager>
+﻿@model StoreMVC.Models.ManagerIndexVM
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ManagerName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ManagerEmail)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ManagerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ManagerEmail)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@{
+    Layout = "../Shared/_ManagerLayout.cshtml";
+    ViewData["Title"] = "Manager Account";
 }
-    </tbody>
-</table>
+
+<div class="text-center py-lg-4">
+    <h1 class="display-4">Welcome @Html.DisplayFor(model => model.ManagerName) to Jake's Ice Creamery Store Manager</h1>
+    @Html.ActionLink("Shop Locations", "CustomerIndex", "Location", new { email = @Html.DisplayFor(model => model.ManagerName) }, new { @class = "hello" })
+</div>

@@ -1,153 +1,145 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using StoreDL;
+using StoreBL;
 using StoreModels;
+using StoreMVC.Models;
 
 namespace StoreMVC.Controllers
 {
     public class ManagerController : Controller
     {
-        private readonly StoreDBContext _context;
+        private IManagerBL _managerBL;
+        private IMapper _mapper;
 
-        public ManagerController(StoreDBContext context)
+        public ManagerController(IManagerBL managerBL, IMapper mapper)
         {
-            _context = context;
+            _managerBL = managerBL;
+            _mapper = mapper;
         }
 
-        // GET: Managers
-        public async Task<IActionResult> Index()
+        // GET: ManagerController
+        public ActionResult Index(ManagerIndexVM currentManager)
         {
-            return View(await _context.Managers.ToListAsync());
+            ViewBag.currentManager = currentManager.ManagerEmail;
+            return View(currentManager);
         }
 
-        // GET: Managers/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public ActionResult ManagerIndex(string email)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var manager = await _context.Managers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (manager == null)
-            {
-                return NotFound();
-            }
-
-            return View(manager);
+            return RedirectToAction("Index", _mapper.cast2ManagerIndexVM(_managerBL.GetManagerByEmail(email)));
         }
 
-        // GET: Managers/Create
-        public IActionResult Create()
+        public ActionResult Details(string email)
+        {
+            return View(_mapper.cast2ManagerCRVM(_managerBL.GetManagerByEmail(email)));
+        }
+
+        public ActionResult Login()
         {
             return View();
         }
 
-        // POST: Managers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ManagerName,ManagerEmail")] Manager manager)
+        public ActionResult Login(Manager manager2Check)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(manager);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                Manager manager = _managerBL.CheckManagerLoginInfo(manager2Check.ManagerEmail, manager2Check.ManagerPassword);
+                if (manager != null)
+                {
+                    return RedirectToAction("Index", _mapper.cast2ManagerIndexVM(_managerBL.GetManagerByEmail(manager2Check.ManagerEmail)));
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Incorrect Email or Password!";
+                    return View();
+                }
             }
-            return View(manager);
+            return View();
         }
 
-        // GET: Managers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // GET: ManagerController/Create
+        public ActionResult Create()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var manager = await _context.Managers.FindAsync(id);
-            if (manager == null)
-            {
-                return NotFound();
-            }
-            return View(manager);
+            return View("Create");
         }
 
-        // POST: Managers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ManagerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ManagerName,ManagerEmail")] Manager manager)
+        public ActionResult Create(ManagerCRVM newManager)
         {
-            if (id != manager.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(manager);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ManagerExists(manager.Id))
+                    if (_managerBL.GetManagerByEmail(newManager.ManagerEmail) == null)
                     {
-                        return NotFound();
+                        Manager createdManager = _mapper.cast2Manager(newManager);
+                        _managerBL.AddManager(_mapper.cast2Manager(newManager));
+                        return RedirectToAction("Index", _mapper.cast2ManagerIndexVM(_mapper.cast2Manager(newManager)));
                     }
                     else
                     {
-                        throw;
+                        ViewBag.ErrorMessage = "An account already exists with this email!";
+                        return View();
                     }
                 }
+                catch
+                {
+                    ViewBag.ErrorMessage = "Please enter the required fields!";
+                    return View();
+                }
+            }
+            return View();
+        }
+
+        // GET: ManagerController/Edit/5
+        public ActionResult Edit(string email)
+        {
+            return View(_mapper.cast2ManagerEditVM(_managerBL.GetManagerByEmail(email)));
+        }
+
+        // POST: ManagerController/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(ManagerEditVM manager2Edit)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _managerBL.UpdateManager(_mapper.cast2Manager(manager2Edit));
+                    return RedirectToAction("ToDetails", manager2Edit.ManagerEmail);
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            return View();
+        }
+
+        // GET: ManagerController/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: ManagerController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
                 return RedirectToAction(nameof(Index));
             }
-            return View(manager);
-        }
-
-        // GET: Managers/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+            catch
             {
-                return NotFound();
+                return View();
             }
-
-            var manager = await _context.Managers
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (manager == null)
-            {
-                return NotFound();
-            }
-
-            return View(manager);
-        }
-
-        // POST: Managers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var manager = await _context.Managers.FindAsync(id);
-            _context.Managers.Remove(manager);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ManagerExists(int id)
-        {
-            return _context.Managers.Any(e => e.Id == id);
         }
     }
 }

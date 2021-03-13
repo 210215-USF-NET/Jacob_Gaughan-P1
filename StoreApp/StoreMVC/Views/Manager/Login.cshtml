@@ -1,7 +1,7 @@
-﻿@model StoreMVC.Models.CustomerCRVM
+﻿@model StoreMVC.Models.ManagerCRVM
 
 @{
-    ViewData["Title"] = "Customer Login";
+    ViewData["Title"] = "Manager Login";
 }
 
 <h1 class="h1 text-center text-uppercase">Customer</h1>
@@ -11,14 +11,14 @@
         <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group w-100 md:w-50 mx-auto">
-            <label asp-for="CustomerEmail" class="sr-only"></label>
-            <input asp-for="CustomerEmail" placeholder="Email Address" class="form-control" required autofocus />
-            <span asp-validation-for="CustomerEmail" class="text-danger"></span>
+            <label asp-for="ManagerEmail" class="sr-only"></label>
+            <input asp-for="ManagerEmail" placeholder="Email Address" class="form-control" required autofocus />
+            <span asp-validation-for="ManagerEmail" class="text-danger"></span>
         </div>
         <div class="form-group w-100 md:w-50 mx-auto">
-            <label asp-for="CustomerPassword" class="sr-only"></label>
-            <input asp-for="CustomerPassword" placeholder="Password" class="form-control" required />
-            <span asp-validation-for="CustomerPassword" class="text-danger"></span>
+            <label asp-for="ManagerPassword" class="sr-only"></label>
+            <input asp-for="ManagerPassword" placeholder="Password" class="form-control" required />
+            <span asp-validation-for="ManagerPassword" class="text-danger"></span>
         </div>
         <div class="form-group">
             <input type="submit" value="Login" class="btn btn-lg btn-primary btn-block" />

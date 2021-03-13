@@ -1,16 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using StoreDL;
+﻿using StoreDL;
 using StoreModels;
+using System;
+using System.Collections.Generic;
 
 namespace StoreBL
 {
     public class CustomerBL : ICustomerBL
     {
         private ICustomerRepository _repo;
-        public CustomerBL(ICustomerRepository repo){
+
+        public CustomerBL(ICustomerRepository repo)
+        {
             _repo = repo;
         }
+
         public Customer AddCustomer(Customer newCustomer)
         {
             return _repo.AddCustomer(newCustomer);
@@ -26,6 +29,11 @@ namespace StoreBL
             return _repo.GetCustomerByEmail(email);
         }
 
+        public Customer GetCustomerById(int Id)
+        {
+            return _repo.GetCustomerById(Id);
+        }
+
         public Customer CheckCustomerLoginInfo(string email, string password)
         {
             return _repo.CheckCustomerLoginInfo(email, password);
@@ -33,7 +41,7 @@ namespace StoreBL
 
         public Customer DeleteCustomer(Customer customer2BDeleted)
         {
-            throw new NotImplementedException();
+            return _repo.DeleteCustomer(customer2BDeleted);
         }
 
         public Customer UpdateCustomer(Customer customer2Bupdated)

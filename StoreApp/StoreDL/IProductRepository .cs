@@ -12,5 +12,7 @@ namespace StoreDL
         decimal GetProductPrice(int prodId);
 
         Product GetProductById(int prodId);
+
+        List<Product> GetProductsAtLocation(int locId);
     }
 }

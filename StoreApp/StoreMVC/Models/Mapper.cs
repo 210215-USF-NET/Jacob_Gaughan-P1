@@ -1,8 +1,4 @@
 ﻿using StoreModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace StoreMVC.Models
 {
@@ -14,10 +10,10 @@ namespace StoreMVC.Models
             {
                 Id = customer2Bcasted.Id,
                 CustomerName = customer2Bcasted.CustomerName,
-                CustomerEmail = customer2Bcasted.CustomerEmail,
-                CustomerPassword = customer2Bcasted.CustomerPassword
+                CustomerEmail = customer2Bcasted.CustomerEmail
             };
         }
+
         public Customer cast2Customer(CustomerCRVM customer2Bcasted)
         {
             return new Customer
@@ -85,6 +81,7 @@ namespace StoreMVC.Models
                 Zipcode = location.Zipcode
             };
         }
+
         public LocationIndexVM cast2LocationIndexVM(Location location2Bcasted)
         {
             return new LocationIndexVM
@@ -96,6 +93,7 @@ namespace StoreMVC.Models
                 Zipcode = location2Bcasted.Zipcode
             };
         }
+
         public Location cast2Location(LocationEditVM location2Bcasted)
         {
             return new Location
@@ -107,6 +105,7 @@ namespace StoreMVC.Models
                 Zipcode = location2Bcasted.Zipcode
             };
         }
+
         public LocationEditVM cast2LocationEditVM(Location location)
         {
             return new LocationEditVM
@@ -116,6 +115,60 @@ namespace StoreMVC.Models
                 City = location.City,
                 State = location.State,
                 Zipcode = location.Zipcode
+            };
+        }
+
+        public Manager cast2Manager(ManagerCRVM manager2Bcasted)
+        {
+            return new Manager
+            {
+                Id = manager2Bcasted.Id,
+                ManagerName = manager2Bcasted.ManagerName,
+                ManagerEmail = manager2Bcasted.ManagerEmail,
+                ManagerPassword = manager2Bcasted.ManagerPassword
+            };
+        }
+
+        public Manager cast2Manager(ManagerEditVM manager2Bcasted)
+        {
+            return new Manager
+            {
+                Id = manager2Bcasted.Id,
+                ManagerName = manager2Bcasted.ManagerName,
+                ManagerEmail = manager2Bcasted.ManagerEmail,
+                ManagerPassword = manager2Bcasted.ManagerPassword
+            };
+        }
+
+        public ManagerCRVM cast2ManagerCRVM(Manager manager)
+        {
+            return new ManagerCRVM
+            {
+                Id = manager.Id,
+                ManagerName = manager.ManagerName,
+                ManagerEmail = manager.ManagerEmail,
+                ManagerPassword = manager.ManagerPassword
+            };
+        }
+
+        public ManagerIndexVM cast2ManagerIndexVM(Manager manager2Bcasted)
+        {
+            return new ManagerIndexVM
+            {
+                Id = manager2Bcasted.Id,
+                ManagerName = manager2Bcasted.ManagerName,
+                ManagerEmail = manager2Bcasted.ManagerEmail
+            };
+        }
+
+        public Manager cast2ManagerEditVM(Manager manager2Bcasted)
+        {
+            return new Manager
+            {
+                Id = manager2Bcasted.Id,
+                ManagerName = manager2Bcasted.ManagerName,
+                ManagerEmail = manager2Bcasted.ManagerEmail,
+                ManagerPassword = manager2Bcasted.ManagerPassword
             };
         }
     }

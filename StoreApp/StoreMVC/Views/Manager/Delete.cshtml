@@ -1,6 +1,5 @@
 ﻿@model StoreModels.Manager
 
-
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>Manager</h4>
@@ -19,7 +18,7 @@
             @Html.DisplayFor(model => model.ManagerEmail)
         </dd>
     </dl>
-    
+
     <form asp-action="Delete">
         <input type="hidden" asp-for="Id" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

@@ -12,5 +12,9 @@ namespace StoreDL
         Manager DeleteManager(Manager manager2BDeleted);
 
         Manager GetManagerByEmail(string email);
+
+        Manager CheckManagerLoginInfo(string email, string password);
+
+        Manager UpdateManager(Manager manager2Bupdated);
     }
 }

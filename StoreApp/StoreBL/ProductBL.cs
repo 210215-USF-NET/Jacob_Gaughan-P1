@@ -1,16 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using StoreDL;
+﻿using StoreDL;
 using StoreModels;
+using System.Collections.Generic;
 
 namespace StoreBL
 {
     public class ProductBL : IProductBL
     {
         private IProductRepository _repo;
-        public ProductBL(IProductRepository repo){
+
+        public ProductBL(IProductRepository repo)
+        {
             _repo = repo;
         }
+
         public Product AddProduct(Product newProduct)
         {
             return _repo.AddProduct(newProduct);
@@ -20,6 +22,7 @@ namespace StoreBL
         {
             return _repo.GetProductPrice(productId);
         }
+
         public Product GetProductById(int productId)
         {
             return _repo.GetProductById(productId);
@@ -28,6 +31,11 @@ namespace StoreBL
         public List<Product> GetProducts()
         {
             return _repo.GetProducts();
+        }
+
+        public List<Product> GetProductsAtLocation(int locId)
+        {
+            return _repo.GetProductsAtLocation(locId);
         }
     }
 }

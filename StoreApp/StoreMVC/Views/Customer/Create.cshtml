@@ -1,7 +1,7 @@
 ﻿@model StoreMVC.Models.CustomerCRVM
 
 @{
-    Layout = "../Shared/CustomerLayout.cshtml";
+    Layout = "../Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "Create New Customer";
 }
 
@@ -30,5 +30,8 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+        <p class="text-danger">
+            @ViewBag.ErrorMessage
+        </p>
     </div>
 </div>

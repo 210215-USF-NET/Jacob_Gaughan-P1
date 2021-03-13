@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using StoreDL;
+﻿using StoreDL;
 using StoreModels;
+using System;
+using System.Collections.Generic;
 
 namespace StoreBL
 {
     public class ManagerBL : IManagerBL
     {
         private IManagerRepository _repo;
+
         public ManagerBL(IManagerRepository repo)
         {
             _repo = repo;
         }
+
         public Manager AddManager(Manager newManager)
         {
             return _repo.AddManager(newManager);
@@ -30,6 +32,16 @@ namespace StoreBL
         public Manager DeleteManager(Manager manager2BDeleted)
         {
             throw new NotImplementedException();
+        }
+
+        public Manager CheckManagerLoginInfo(string email, string password)
+        {
+            return _repo.CheckManagerLoginInfo(email, password);
+        }
+
+        public Manager UpdateManager(Manager manager2Bupdated)
+        {
+            return _repo.UpdateManager(manager2Bupdated);
         }
     }
 }

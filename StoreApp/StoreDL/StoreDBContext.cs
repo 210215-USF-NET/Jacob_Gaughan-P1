@@ -1,10 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StoreModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StoreDL
 {
@@ -17,7 +12,7 @@ namespace StoreDL
         protected StoreDBContext()
         {
         }
-        
+
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -90,6 +85,5 @@ namespace StoreDL
                 .WithOne(order => order.Location)
                 .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
 }
