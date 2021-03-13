@@ -3,16 +3,16 @@
 namespace StoreMVC.Models
 {
     /// <summary>
-    /// Model for the index view of my customers
+    /// Model for the index view of my managers
     /// </summary>
-    public class CustomerIndexVM
+    public class ManagerIndexVM
     {
         public int Id { get; set; }
 
         [DisplayName("Name")]
-        public string CustomerName { get; set; }
+        public string ManagerName { get; set; }
 
         [DisplayName("Email")]
-        public string CustomerEmail { get; set; }
+        public string ManagerEmail { get; set; }
     }
 }

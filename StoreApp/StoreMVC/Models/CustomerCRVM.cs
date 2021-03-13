@@ -4,24 +4,24 @@ using System.ComponentModel.DataAnnotations;
 namespace StoreMVC.Models
 {
     /// <summary>
-    /// Model for the Create/Read view of my Managers
+    /// Model for the Create/Read view of my customers
     /// </summary>
-    public class ManagerCRVM
+    public class CustomerCRVM
     {
         public int Id { get; set; }
 
         [DisplayName("Name")]
         [Required]
-        public string ManagerName { get; set; }
+        public string CustomerName { get; set; }
 
         [DisplayName("Email")]
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string ManagerEmail { get; set; }
+        public string CustomerEmail { get; set; }
 
         [DisplayName("Password")]
         [Required]
         [DataType(DataType.Password)]
-        public string ManagerPassword { get; set; }
+        public string CustomerPassword { get; set; }
     }
 }

@@ -7,5 +7,5 @@
 
 <div class="text-center py-lg-4">
     <h1 class="display-4">Welcome @Html.DisplayFor(model => model.ManagerName) to Jake's Ice Creamery Store Manager</h1>
-    @Html.ActionLink("Shop Locations", "CustomerIndex", "Location", new { email = @Html.DisplayFor(model => model.ManagerName) }, new { @class = "hello" })
+    @Html.ActionLink("View Locations", "ManagerIndex", "Location", new { @class = "hello" })
 </div>

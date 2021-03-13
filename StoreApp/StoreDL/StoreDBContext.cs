@@ -16,7 +16,6 @@ namespace StoreDL
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Inventory> Inventories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Cart> Carts { get; set; }
@@ -32,9 +31,6 @@ namespace StoreDL
             modelBuilder.Entity<Product>()
                 .Property(product => product.Id)
                 .ValueGeneratedOnAdd();
-            modelBuilder.Entity<Inventory>()
-               .Property(inventory => inventory.Id)
-               .ValueGeneratedOnAdd();
             modelBuilder.Entity<Order>()
                .Property(order => order.Id)
                .ValueGeneratedOnAdd();
@@ -63,16 +59,6 @@ namespace StoreDL
             modelBuilder.Entity<Cart>()
                 .HasOne(cart => cart.Location)
                 .WithOne(location => location.Cart)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            //foriegn key connections for Inventory
-            modelBuilder.Entity<Inventory>()
-                .HasOne(inventory => inventory.Product)
-                .WithOne(product => product.Inventory)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Inventory>()
-                .HasOne(inventory => inventory.Location)
-                .WithOne(location => location.Inventory)
                 .OnDelete(DeleteBehavior.Cascade);
 
             //foriegn key connections for Location

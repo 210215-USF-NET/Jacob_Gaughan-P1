@@ -10,15 +10,13 @@ namespace StoreMVC.Controllers
     {
         private ICustomerBL _customerBL;
         private ILocationBL _locationBL;
-        private IInventoryBL _inventoryBL;
         private IProductBL _productBL;
         private IMapper _mapper;
 
-        public LocationController(ICustomerBL customerBL, ILocationBL locationBL, IMapper mapper, IProductBL productBL, IInventoryBL inventoryBL)
+        public LocationController(ICustomerBL customerBL, ILocationBL locationBL, IMapper mapper, IProductBL productBL)
         {
             _locationBL = locationBL;
             _productBL = productBL;
-            _inventoryBL = inventoryBL;
             _customerBL = customerBL;
             _mapper = mapper;
         }
@@ -35,12 +33,24 @@ namespace StoreMVC.Controllers
             return View(_locationBL.GetLocations().Select(location => _mapper.cast2LocationIndexVM(location)).ToList());
         }
 
+        public ActionResult ManagerIndex()
+        {
+            return View(_locationBL.GetLocations().Select(location => _mapper.cast2LocationIndexVM(location)).ToList());
+        }
+
         public ActionResult Shop(int locId)
         {
             dynamic locProdInv = new ExpandoObject();
             locProdInv.Location = _locationBL.GetLocationById(locId);
             locProdInv.Products = _productBL.GetProductsAtLocation(locId);
-            locProdInv.Inventories = _inventoryBL.GetInventoriesAtLocation(locId);
+            return View(locProdInv);
+        }
+
+        public ActionResult ManagerProductView(int locId)
+        {
+            dynamic locProdInv = new ExpandoObject();
+            locProdInv.Location = _locationBL.GetLocationById(locId);
+            locProdInv.Products = _productBL.GetProductsAtLocation(locId);
             return View(locProdInv);
         }
 
@@ -65,7 +75,7 @@ namespace StoreMVC.Controllers
                 try
                 {
                     _locationBL.AddLocation(_mapper.cast2Location(newLocation));
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(ManagerIndex));
                 }
                 catch
                 {
@@ -106,7 +116,7 @@ namespace StoreMVC.Controllers
         public ActionResult Delete(int Id)
         {
             _locationBL.DeleteLocation(_locationBL.GetLocationById(Id));
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ManagerIndex));
         }
     }
 }

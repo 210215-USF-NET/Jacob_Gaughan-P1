@@ -37,5 +37,10 @@ namespace StoreBL
         {
             return _repo.GetProductsAtLocation(locId);
         }
+
+        public Product UpdateProduct(Product product2Bupdated)
+        {
+            return _repo.UpdateProduct(product2Bupdated);
+        }
     }
 }

@@ -1,0 +1,28 @@
+﻿@model dynamic
+
+@{
+    Layout = "../Shared/_ManagerLayout.cshtml";
+    ViewData["Title"] = "Manager Products at Location";
+}
+
+<div>
+    <h4>Location: @Model.Location.Address @Model.Location.City, @Model.Location.State (@Model.Location.Zipcode)</h4>
+
+    <a asp-action="CreateProduct" class="btn btn-secondary">Add new product</a>
+
+    @foreach (var product in Model.Products)
+    {
+        <div>
+            <h4>
+                @product.ProductName
+            </h4>
+            <p>
+                @product.ProductPrice
+            </p>
+            <p>
+                @product.Quantity
+            </p>
+        </div>
+        @Html.ActionLink("Edit", "EditProduct", "Location", new { prodId = @product.Product.Id }, new { locId = @Model.Location.Id })
+    }
+</div>

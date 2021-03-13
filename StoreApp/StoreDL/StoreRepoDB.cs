@@ -216,5 +216,14 @@ namespace StoreDL
         {
             return _context.Customers.AsNoTracking().FirstOrDefault(customer => customer.Id == Id);
         }
+
+        public Product UpdateProduct(Product product2Bupdated)
+        {
+            Product oldProduct = _context.Products.Find(product2Bupdated.Id);
+            _context.Entry(oldProduct).CurrentValues.SetValues(product2Bupdated);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            return product2Bupdated;
+        }
     }
 }

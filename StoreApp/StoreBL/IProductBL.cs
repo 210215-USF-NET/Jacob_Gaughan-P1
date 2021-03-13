@@ -14,5 +14,7 @@ namespace StoreBL
         Product GetProductById(int productId);
 
         List<Product> GetProductsAtLocation(int locId);
+
+        Product UpdateProduct(Product product2Bupdated);
     }
 }
