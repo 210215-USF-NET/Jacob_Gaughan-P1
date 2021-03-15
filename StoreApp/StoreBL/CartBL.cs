@@ -31,5 +31,10 @@ namespace StoreBL
         {
             return _repo.AddCart(newCart);
         }
+
+        public Cart EmptyCart(Cart cart2Bemptied)
+        {
+            return _repo.AddCart(cart2Bemptied);
+        }
     }
 }

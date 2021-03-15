@@ -1,0 +1,49 @@
+﻿@model Tuple<CustomerIndexVM, List<OrderIndexVM>, List<LocationIndexVM>>
+
+@{
+    Layout = "../Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Customer Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>@Model.Item1.CustomerName's Previous Orders</h4>
+
+
+    <table class="table-dark table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Purchase Date
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="orderHistory">
+            @foreach (var item in Model.Item2)
+            {
+                <tr class="@item.LocationId @item.Date">
+                    <td class="orderLocation">
+                        @item.LocationId
+                    </td>
+                    <td class="orderDate">
+                        @item.Date
+                    </td>
+                    <td class="orderTotal">
+                        $@item.Total
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @Html.ActionLink("Back to Customer Menu", "CustomerIndex", "Customer", new { custId = Model.Item1.Id })
+</div>

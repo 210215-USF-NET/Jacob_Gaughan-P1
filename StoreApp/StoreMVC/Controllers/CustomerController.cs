@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using StoreBL;
 using StoreModels;
 using StoreMVC.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StoreMVC.Controllers
 {
@@ -12,13 +14,15 @@ namespace StoreMVC.Controllers
         private ICustomerBL _customerBL;
         private ILocationBL _locationBL;
         private ICartBL _cartBL;
+        private IOrderBL _orderBL;
         private IMapper _mapper;
 
-        public CustomerController(ICustomerBL customerBL, ICartBL cartBL, IMapper mapper, ILocationBL locationBL)
+        public CustomerController(ICustomerBL customerBL, ICartBL cartBL, IMapper mapper, ILocationBL locationBL, IOrderBL orderBL)
         {
             _locationBL = locationBL;
             _cartBL = cartBL;
             _customerBL = customerBL;
+            _orderBL = orderBL;
             _mapper = mapper;
         }
 
@@ -29,9 +33,29 @@ namespace StoreMVC.Controllers
             return View(currentCustomer);
         }
 
-        public ActionResult CustomerIndex(string email)
+        public ActionResult CustomerIndex(int custId)
         {
-            return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerByEmail(email)));
+            return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(custId)));
+        }
+
+        public ActionResult PrevOrders(int custId)
+        {
+            List<LocationIndexVM> LocationList = _locationBL.GetLocations().Select(location => _mapper.cast2LocationIndexVM(location)).ToList();
+            List<OrderIndexVM> OrderList = new List<OrderIndexVM>();
+
+            foreach (var item in _orderBL.GetOrders().Select(order => _mapper.cast2OrderIndexVM(order)).ToList())
+            {
+                if(item.CustomerId == custId)
+                {
+                    OrderList.Add(item);
+                }
+            }
+            Tuple<CustomerIndexVM, List<OrderIndexVM>, List<LocationIndexVM>> custOrderTuple = new Tuple<CustomerIndexVM, List<OrderIndexVM>, List<LocationIndexVM>>(
+                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(custId).LocationId)),
+                OrderList,
+                LocationList
+                );
+            return View(custOrderTuple);
         }
 
         public ActionResult Details(string email)
@@ -53,17 +77,18 @@ namespace StoreMVC.Controllers
                 Customer customer = _customerBL.CheckCustomerLoginInfo(customer2Check.CustomerEmail, customer2Check.CustomerPassword);
                 if (customer != null)
                 {
+                    int custId = _customerBL.GetCustomerByEmail(customer2Check.CustomerEmail).Id;
                     //create carts for each location
                     foreach (var item in _locationBL.GetLocations())
                     {
-                        if (_cartBL.GetCartById(customer2Check.Id, item.Id) == null)
+                        if (_cartBL.GetCartById(custId, item.Id) == null)
                         {
-                            //Cart newCart = new Cart();
-                            //newCart.CustomerId = customer2Check.Id;
-                            //newCart.LocationId = item.Id;
-                            //newCart.ProductIds = new List<int>();
-                            //newCart.ProductQuantities = new List<int>();
-                            //_cartBL.AddCart(newCart);
+                            Cart newCart = new Cart();
+                            newCart.CustomerId = customer2Check.Id;
+                            newCart.LocationId = item.Id;
+                            newCart.ProductIds = new List<int>();
+                            newCart.ProductQuantities = new List<int>();
+                            _cartBL.AddCart(newCart);
                         }
                     }
                     return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerByEmail(customer2Check.CustomerEmail)));

@@ -15,13 +15,15 @@ namespace StoreMVC.Controllers
         private ILocationBL _locationBL;
         private ICartBL _cartBL;
         private IProductBL _productBL;
+        private IOrderBL _orderBL;
         private IMapper _mapper;
 
-        public LocationController(ICustomerBL customerBL, ILocationBL locationBL, IMapper mapper, IProductBL productBL, ICartBL cartBL)
+        public LocationController(ICustomerBL customerBL, ILocationBL locationBL, IMapper mapper, IProductBL productBL, ICartBL cartBL, IOrderBL orderBL)
         {
             _cartBL = cartBL;
             _locationBL = locationBL;
             _productBL = productBL;
+            _orderBL = orderBL;
             _customerBL = customerBL;
             _mapper = mapper;
         }
@@ -165,7 +167,11 @@ namespace StoreMVC.Controllers
 
         public ActionResult CartMenu(int custId, int locId, int prodId)
         {
-            Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM>(_mapper.cast2LocationIndexVM(_locationBL.GetLocationById(locId)), _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(custId)), _mapper.cast2ProductIndexVM(_productBL.GetProductById(prodId)), _mapper.cast2CartCRVM(_cartBL.GetCartById(custId, locId)));
+            Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM>(
+                _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(locId)),
+                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(custId)),
+                _mapper.cast2ProductIndexVM(_productBL.GetProductById(prodId)),
+                _mapper.cast2CartCRVM(_cartBL.GetCartById(custId, locId)));
             return View(tuple);
         }
 
@@ -233,31 +239,20 @@ namespace StoreMVC.Controllers
 
         public ActionResult PlaceOrder(int cartId, decimal total, List<ProductIndexVM> products)
         {
-            List<ProductIndexVM> ProductList = new List<ProductIndexVM>();
-            foreach (var item in _cartBL.GetCartByCartId(cartId).ProductIds)
+            DateTime now = DateTime.Now;
+            Order newOrder = new Order();
+            newOrder.CustomerId = _cartBL.GetCartByCartId(cartId).CustomerId;
+            newOrder.LocationId = _cartBL.GetCartByCartId(cartId).LocationId;
+            newOrder.Total = total;
+            newOrder.Date = now;
+            foreach (var item in products)
             {
-                ProductList.Add(_mapper.cast2ProductIndexVM(_productBL.GetProductById(item)));
+                newOrder.ProductIds.Add(item.Id);
             }
+            _orderBL.AddOrder(newOrder);
+            _cartBL.EmptyCart(_cartBL.GetCartByCartId(cartId));
 
-            Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>>(
-                _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(_cartBL.GetCartByCartId(cartId).LocationId)),
-                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(cartId).CustomerId)),
-                _mapper.cast2CartCRVM(_cartBL.GetCartByCartId(cartId)),
-                ProductList);
-
-            decimal CartTotal = 0.00m;
-
-            for (int j = 0; j < _cartBL.GetCartByCartId(cartId).ProductIds.Count; j++)
-            {
-                for (int h = 0; h < _cartBL.GetCartByCartId(cartId).ProductQuantities[j]; h++)
-                {
-                    CartTotal += _productBL.GetProductPrice(_cartBL.GetCartByCartId(cartId).ProductIds[j]);
-                }
-            }
-
-            ViewBag.Total = CartTotal;
-
-            return View(tuple);
+            return RedirectToAction("Index", "Customer", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(cartId).CustomerId)));
         }
     }
 }

@@ -255,5 +255,31 @@ namespace StoreMVC.Models
                 ProductQuantities = cart2Bcasted.ProductQuantities
             };
         }
+
+        public OrderIndexVM cast2OrderIndexVM(Order order)
+        {
+            return new OrderIndexVM
+            {
+                Id = order.Id,
+                ProductIds = order.ProductIds,
+                CustomerId = order.CustomerId,
+                LocationId = order.LocationId,
+                Total = order.Total,
+                Date = order.Date
+            };
+        }
+
+        public Order cast2Order(OrderIndexVM order2Bcasted)
+        {
+            return new Order
+            {
+                Id = order2Bcasted.Id,
+                ProductIds = order2Bcasted.ProductIds,
+                CustomerId = order2Bcasted.CustomerId,
+                LocationId = order2Bcasted.LocationId,
+                Total = order2Bcasted.Total,
+                Date = order2Bcasted.Date
+            };
+        }
     }
 }

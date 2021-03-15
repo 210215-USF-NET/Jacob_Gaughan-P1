@@ -47,5 +47,9 @@ namespace StoreMVC.Models
         CartCRVM cast2CartCRVM(Cart cart);
 
         Cart cast2Cart(CartCRVM cart2Bcasted);
+
+        OrderIndexVM cast2OrderIndexVM(Order order);
+
+        Order cast2Order(OrderIndexVM order2Bcasted);
     }
 }

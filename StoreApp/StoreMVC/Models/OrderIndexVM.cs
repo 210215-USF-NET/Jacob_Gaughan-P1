@@ -1,22 +1,31 @@
-﻿using StoreModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace StoreMVC.Models
 {
     /// <summary>
-    /// Model for the Create/Read view of my customers
+    /// Model for the index view of my managers
     /// </summary>
-    public class CartCRVM
+    public class OrderIndexVM
     {
         private List<int> productIds;
-        private List<int> productQuantities;
+
         public int Id { get; set; }
+
         public int CustomerId { get; set; }
+
+        [DisplayName("Location ID")]
         public int LocationId { get; set; }
-        public List<int> ProductIds {
+
+        [DisplayName("Date")]
+        public DateTime Date { get; set; }
+
+        [DisplayName("Total")]
+        public decimal Total { get; set; }
+
+        public List<int> ProductIds
+        {
             get { return productIds; }
             set
             {
@@ -25,17 +34,6 @@ namespace StoreMVC.Models
                     value = new List<int>();
                 }
                 productIds = value;
-            }
-        }
-        public List<int> ProductQuantities {
-            get { return productQuantities; }
-            set
-            {
-                if (value == null)
-                {
-                    value = new List<int>();
-                }
-                productQuantities = value;
             }
         }
     }

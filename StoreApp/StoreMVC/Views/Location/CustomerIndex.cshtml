@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
+@Html.ActionLink("Back to Customer Menu", "CustomerIndex", "Customer", new { custId = ViewBag.CustomerId })
+
 <h1>Choose a location</h1>
 
 <table class="table">
