@@ -1,28 +1,32 @@
 ﻿@model dynamic
 
 @{
-    Layout = "../Shared/_CustomerLayout.cshtml";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
     ViewData["Title"] = "Shop Location";
 }
 
 <h1>Details</h1>
 
 <div>
+    <div>
+        @Html.ActionLink("Back To Locations", "CustomerIndex", "Location", new { custId = ViewBag.CustomerId })
+    </div>
+
     <h4>Location: @Model.Location.Address @Model.Location.City, @Model.Location.State (@Model.Location.Zipcode)!</h4>
 
     @foreach (var product in Model.Products)
     {
-        <div>
-            <h4>
-                Flavor: @product.ProductName
-            </h4>
-            <p>
-                Price: $@product.ProductPrice/pint
-            </p>
-            <p>
-                @product.Quantity pints in stock
-            </p>
-            @Html.ActionLink("Add To Cart", "CartMenu", "Location", new { custId = ViewBag.CustomerId, locId = ViewBag.LocationId, prodId = product.Id })
-        </div>
+    <div>
+        <h4>
+            Flavor: @product.ProductName
+        </h4>
+        <p>
+            Price: $@product.ProductPrice/pint
+        </p>
+        <p>
+            @product.Quantity pints in stock
+        </p>
+        @Html.ActionLink("Add To Cart", "CartMenu", "Location", new { custId = ViewBag.CustomerId, locId = ViewBag.LocationId, prodId = product.Id })
+    </div>
     }
 </div>
