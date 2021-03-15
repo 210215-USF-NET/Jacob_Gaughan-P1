@@ -195,5 +195,10 @@ namespace StoreDL
             _context.ChangeTracker.Clear();
             return product2Bupdated;
         }
+
+        public Cart GetCartByCartId(int cartId)
+        {
+            return _context.Carts.AsNoTracking().FirstOrDefault(cart => cart.Id == cartId);
+        }
     }
 }

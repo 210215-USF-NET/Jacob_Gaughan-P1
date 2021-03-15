@@ -38,12 +38,5 @@ namespace StoreMVC.Models
                 productQuantities = value;
             }
         }
-        [DisplayName("Quantity")]
-        [Required]
-        [Range(0, Int16.MaxValue, ErrorMessage = "Quantity Can't Be Negative!")]
-        public int TempQuantity { get; set; }
-        [DisplayName("Product")]
-        [Required]
-        public int TempProdId { get; set; }
     }
 }

@@ -5,7 +5,7 @@ namespace StoreMVC.Models
     /// <summary>
     /// Model for the index view of my managers
     /// </summary>
-    public class productIndexVM
+    public class ProductIndexVM
     {
         public int Id { get; set; }
         public int LocationId { get; set; }

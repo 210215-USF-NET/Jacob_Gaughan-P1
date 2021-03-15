@@ -2,6 +2,8 @@
 using StoreBL;
 using StoreModels;
 using StoreMVC.Models;
+using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 
@@ -163,45 +165,32 @@ namespace StoreMVC.Controllers
 
         public ActionResult CartMenu(int custId, int locId, int prodId)
         {
-            @ViewBag.Location = $"{_locationBL.GetLocationById(locId).Address} {_locationBL.GetLocationById(locId).City}, {_locationBL.GetLocationById(locId).State} ({_locationBL.GetLocationById(locId).Zipcode})";
-            @ViewBag.LocationId = locId;
-            @ViewBag.CustomerName = _customerBL.GetCustomerById(custId).CustomerName;
-            @ViewBag.CustomerId = custId;
-            @ViewBag.ProductId = prodId;
-            @ViewBag.ProductName = _productBL.GetProductById(prodId).ProductName;
-            @ViewBag.ProductAvailable = _productBL.GetProductById(prodId).Quantity;
-            return View(_mapper.cast2CartCRVM(_cartBL.GetCartById(custId, locId)));
+            Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM>(_mapper.cast2LocationIndexVM(_locationBL.GetLocationById(locId)), _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(custId)), _mapper.cast2ProductIndexVM(_productBL.GetProductById(prodId)), _mapper.cast2CartCRVM(_cartBL.GetCartById(custId, locId)));
+            return View(tuple);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CartMenu(CartCRVM currentCart)
+        public ActionResult CartMenu(int updatedQuantity, int productId, int locationId, int customerId)
         {
-            @ViewBag.Location = $"{_locationBL.GetLocationById(currentCart.LocationId).Address} {_locationBL.GetLocationById(currentCart.LocationId).City}, {_locationBL.GetLocationById(currentCart.LocationId).State} ({_locationBL.GetLocationById(currentCart.LocationId).Zipcode})";
-            @ViewBag.LocationId = currentCart.LocationId;
-            @ViewBag.ProductId = currentCart.TempProdId;
-            @ViewBag.CustomerId = currentCart.CustomerId;
-            @ViewBag.CustomerName = _customerBL.GetCustomerById(currentCart.CustomerId).CustomerName;
-            @ViewBag.ProductName = _productBL.GetProductById(currentCart.TempProdId).ProductName;
-            @ViewBag.ProductAvailable = _productBL.GetProductById(currentCart.TempProdId).Quantity;
             if (ModelState.IsValid)
             {
                 try
                 {
-                    if (currentCart.TempQuantity > _productBL.GetProductById(currentCart.TempProdId).Quantity)
+                    if (updatedQuantity > _productBL.GetProductById(productId).Quantity)
                     {
                         ViewBag.ErrorMessage = "Out of Stock!";
                         return View();
                     }
-                    else if (currentCart.TempQuantity == 0)
+                    else if (updatedQuantity == 0)
                     {
                         ViewBag.ErrorMessage = "x + 0 = x!";
                         return View();
                     }
-                    currentCart.ProductIds.Add(currentCart.TempProdId);
-                    currentCart.ProductQuantities.Add(currentCart.TempQuantity);
-                    _cartBL.AddToCart(_mapper.cast2Cart(currentCart));
-                    return RedirectToAction("Shop", new { custId = currentCart.CustomerId, locId = currentCart.LocationId });
+                    Cart UpdatedCart = _cartBL.GetCartById(customerId, locationId);
+                    UpdatedCart.ProductIds.Add(productId);
+                    UpdatedCart.ProductQuantities.Add(updatedQuantity);
+                    _cartBL.AddToCart(UpdatedCart);
+                    return RedirectToAction("Shop", new { custId = customerId, locId = locationId });
                 }
                 catch
                 {
@@ -213,9 +202,62 @@ namespace StoreMVC.Controllers
             return View();
         }
 
-        public ActionResult ViewCart()
+        public ActionResult Checkout(int cartId)
         {
-            return View();
+            List<ProductIndexVM> ProductList = new List<ProductIndexVM>();
+            foreach(var item in _cartBL.GetCartByCartId(cartId).ProductIds)
+            {
+                ProductList.Add(_mapper.cast2ProductIndexVM(_productBL.GetProductById(item)));
+            }
+
+            Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>>(
+                _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(_cartBL.GetCartByCartId(cartId).LocationId)),
+                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(cartId).CustomerId)),
+                _mapper.cast2CartCRVM(_cartBL.GetCartByCartId(cartId)),
+                ProductList);
+
+            decimal CartTotal = 0.00m;
+
+            for(int j = 0; j < _cartBL.GetCartByCartId(cartId).ProductIds.Count; j++)
+            {
+                for (int h = 0; h < _cartBL.GetCartByCartId(cartId).ProductQuantities[j]; h++)
+                {
+                    CartTotal += _productBL.GetProductPrice(_cartBL.GetCartByCartId(cartId).ProductIds[j]);
+                }
+            }
+
+            ViewBag.Total = CartTotal;
+
+            return View(tuple);
+        }
+
+        public ActionResult PlaceOrder(int cartId, decimal total, List<ProductIndexVM> products)
+        {
+            List<ProductIndexVM> ProductList = new List<ProductIndexVM>();
+            foreach (var item in _cartBL.GetCartByCartId(cartId).ProductIds)
+            {
+                ProductList.Add(_mapper.cast2ProductIndexVM(_productBL.GetProductById(item)));
+            }
+
+            Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>>(
+                _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(_cartBL.GetCartByCartId(cartId).LocationId)),
+                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(cartId).CustomerId)),
+                _mapper.cast2CartCRVM(_cartBL.GetCartByCartId(cartId)),
+                ProductList);
+
+            decimal CartTotal = 0.00m;
+
+            for (int j = 0; j < _cartBL.GetCartByCartId(cartId).ProductIds.Count; j++)
+            {
+                for (int h = 0; h < _cartBL.GetCartByCartId(cartId).ProductQuantities[j]; h++)
+                {
+                    CartTotal += _productBL.GetProductPrice(_cartBL.GetCartByCartId(cartId).ProductIds[j]);
+                }
+            }
+
+            ViewBag.Total = CartTotal;
+
+            return View(tuple);
         }
     }
 }

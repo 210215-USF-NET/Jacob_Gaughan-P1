@@ -9,5 +9,7 @@ namespace StoreDL
         Cart AddToCart(Cart cartToAddTo);
 
         Cart GetCartById(int custId, int locId);
+
+        Cart GetCartByCartId(int cartId);
     }
 }

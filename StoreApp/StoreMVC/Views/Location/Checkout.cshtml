@@ -1,0 +1,32 @@
+﻿@model Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>>
+
+@{
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+    ViewData["Title"] = "Checkout";
+    int i = 0;
+}
+
+<div>
+    <h1>
+        @Model.Item2.CustomerName's Cart
+    </h1>
+
+    <h3>
+        Location: @Model.Item1.Address @Model.Item1.City, @Model.Item1.State (@Model.Item1.Zipcode)
+    </h3>
+
+    @foreach (var item in Model.Item4)
+    {
+        <div>
+            <p>
+                @item.ProductName | $@item.ProductPrice | @Model.Item3.ProductQuantities[i] | @Html.ActionLink("Remove", "RemoveProductFromCart", "Location", new { prodId = item.Id, cartId = Model.Item3.Id }, new { @class = "text-danger" })
+            </p>
+        </div>
+        i++;
+    }
+    <h6>
+        Current Total: $@ViewBag.Total
+    </h6>
+
+    @Html.ActionLink("Place Order", "PlaceOrder", "Location", new { cartId = Model.Item3.Id, total = ViewBag.Total, products = Model.Item4 }, new { @class = "text-danger" })
+</div>

@@ -208,6 +208,18 @@ namespace StoreMVC.Models
             };
         }
 
+        public ProductIndexVM cast2ProductIndexVM(Product product)
+        {
+            return new ProductIndexVM
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                ProductPrice = product.ProductPrice,
+                Quantity = product.Quantity,
+                LocationId = product.LocationId
+            };
+        }
+
         public Product cast2ProductEditVM(Product product2Bcasted)
         {
             return new Product

@@ -17,6 +17,11 @@ namespace StoreBL
             return _repo.GetCartById(custId, locId);
         }
 
+        public Cart GetCartByCartId(int cartId)
+        {
+            return _repo.GetCartByCartId(cartId);
+        }
+
         public Cart AddToCart(Cart cart2AddTo)
         {
             return _repo.AddToCart(cart2AddTo);

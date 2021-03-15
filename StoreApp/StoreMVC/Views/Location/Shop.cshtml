@@ -9,24 +9,28 @@
 
 <div>
     <div>
-        @Html.ActionLink("Back To Locations", "CustomerIndex", "Location", new { custId = ViewBag.CustomerId })
+        @Html.ActionLink("Back To Locations", "CustomerIndex", "Location", new { custId = Model.Customer.Id })
+    </div>
+
+    <div>
+        @Html.ActionLink("Checkout", "Checkout", "Location", new { cartId = Model.Cart.Id })
     </div>
 
     <h4>Location: @Model.Location.Address @Model.Location.City, @Model.Location.State (@Model.Location.Zipcode)!</h4>
 
     @foreach (var product in Model.Products)
     {
-    <div>
-        <h4>
-            Flavor: @product.ProductName
-        </h4>
-        <p>
-            Price: $@product.ProductPrice/pint
-        </p>
-        <p>
-            @product.Quantity pints in stock
-        </p>
-        @Html.ActionLink("Add To Cart", "CartMenu", "Location", new { custId = ViewBag.CustomerId, locId = ViewBag.LocationId, prodId = product.Id })
-    </div>
+        <div>
+            <h4>
+                Flavor: @product.ProductName
+            </h4>
+            <p>
+                Price: $@product.ProductPrice/pint
+            </p>
+            <p>
+                @product.Quantity pints in stock
+            </p>
+            @Html.ActionLink("Add To Cart", "CartMenu", "Location", new { custId = Model.Customer.Id, locId = Model.Location.Id, prodId = product.Id })
+        </div>
     }
 </div>
