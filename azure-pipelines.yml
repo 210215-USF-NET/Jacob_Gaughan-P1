@@ -19,7 +19,15 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.sln'
-
+- task: SonarCloudPrepare@1
+  displayName: prepare code analysis
+  inputs:
+    SonarCloud: 'StoreApp'
+    organization: '210215-usf-net'
+    scannerMode: 'MSBuild'
+    projectKey: '210215-USF-NET_Jacob_Gaughan-P1'
+- task: SonarCloudPublish@1
+  displayName: publish code analysis
 - task: DotNetCoreCLI@2
   inputs:
     command: 'publish'
