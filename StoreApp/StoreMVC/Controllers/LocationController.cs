@@ -170,10 +170,6 @@ namespace StoreMVC.Controllers
             @ViewBag.ProductId = prodId;
             @ViewBag.ProductName = _productBL.GetProductById(prodId).ProductName;
             @ViewBag.ProductAvailable = _productBL.GetProductById(prodId).Quantity;
-            dynamic prodCart = new ExpandoObject();
-            prodCart.Product = _productBL.GetProductById(prodId);
-            prodCart.Cart = _mapper.cast2CartCRVM(_cartBL.GetCartById(custId, locId));
-
             return View(_mapper.cast2CartCRVM(_cartBL.GetCartById(custId, locId)));
         }
 

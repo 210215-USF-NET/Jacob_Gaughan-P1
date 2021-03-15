@@ -16,6 +16,8 @@
             <div class="form-group">
                 <label class="control-label">Product: @ViewBag.ProductName</label>
                 <input asp-for="TempProdId" class="form-control" value="@ViewBag.ProductId" style="display:none;" />
+                <input asp-for="ProductIds" class="form-control" style="display:none;" />
+                <input asp-for="ProductQuantities" class="form-control" style="display:none;" />
                 <input asp-for="LocationId" class="form-control" value="@ViewBag.LocationId" style="display:none;" />
                 <input asp-for="CustomerId" class="form-control" value="@ViewBag.CustomerId" style="display:none;" />
             </div>
