@@ -2,7 +2,7 @@
 
 namespace StoreDL.Migrations
 {
-    public partial class DBconfiguration4 : Migration
+    public partial class RelationalFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

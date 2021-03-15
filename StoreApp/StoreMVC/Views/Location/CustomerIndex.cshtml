@@ -42,7 +42,7 @@
                     @Html.DisplayFor(modelItem => item.Zipcode)
                 </td>
                 <td>
-                    @Html.ActionLink("Shop Location", "Shop", "Location", new { locId = item.Id })
+                    @Html.ActionLink("Shop Location", "Shop", "Location", new { locId = item.Id, custId = ViewBag.CustomerId })
                 </td>
             </tr>
         }

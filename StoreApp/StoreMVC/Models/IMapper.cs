@@ -33,5 +33,17 @@ namespace StoreMVC.Models
         ManagerIndexVM cast2ManagerIndexVM(Manager manager2Bcasted);
 
         Manager cast2ManagerEditVM(Manager manager2Bcasted);
+
+        Product cast2Product(ProductCRVM product2Bcasted);
+
+        Product cast2Product(ProductEditVM product2Bcasted);
+
+        ProductCRVM cast2ProductCRVM(Product product);
+
+        Product cast2ProductEditVM(Product product2Bcasted);
+
+        CartCRVM cast2CartCRVM(Cart cart);
+
+        Cart cast2Cart(CartCRVM cart2Bcasted);
     }
 }

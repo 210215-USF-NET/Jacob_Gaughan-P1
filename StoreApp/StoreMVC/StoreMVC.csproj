@@ -23,4 +23,11 @@
     <ProjectReference Include="..\StoreModels\StoreModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Location\CartMenu.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

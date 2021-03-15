@@ -101,7 +101,7 @@ namespace StoreDL
 
         public Product GetProductById(int prodId)
         {
-            return _context.Products.Find(prodId);
+            return _context.Products.AsNoTracking().FirstOrDefault(product => product.Id == prodId);
         }
 
         public decimal GetProductPrice(int prodId)
@@ -168,9 +168,13 @@ namespace StoreDL
             return newCart;
         }
 
-        public Cart AddToCart(Cart newCart, int invId, int quantity2Add)
+        public Cart AddToCart(Cart currentCart)
         {
-            throw new NotImplementedException();
+            Cart updatedCart = _context.Carts.Find(currentCart.Id);
+            _context.Entry(updatedCart).CurrentValues.SetValues(currentCart);
+            _context.SaveChanges();
+            _context.ChangeTracker.Clear();
+            return currentCart;
         }
 
         public Cart GetCartById(int custId, int locId)

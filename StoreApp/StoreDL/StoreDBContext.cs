@@ -48,18 +48,13 @@ namespace StoreDL
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Customer>()
                 .HasMany(customer => customer.Orders)
-                .WithOne(cart => cart.Customer)
+                .WithOne(order => order.Customer)
                 .OnDelete(DeleteBehavior.Cascade);
 
             //foriegn key connections for Carts
             modelBuilder.Entity<Cart>()
                 .HasMany(cart => cart.Products)
-                .WithOne(product => product.Cart)
-                .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Cart>()
-                .HasOne(cart => cart.Location)
-                .WithOne(location => location.Cart)
-                .OnDelete(DeleteBehavior.Cascade);
+                .WithOne();
 
             //foriegn key connections for Location
             modelBuilder.Entity<Location>()
@@ -69,6 +64,14 @@ namespace StoreDL
             modelBuilder.Entity<Location>()
                 .HasMany(location => location.Orders)
                 .WithOne(order => order.Location)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Location>()
+                .HasMany(location => location.Orders)
+                .WithOne(order => order.Location)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Location>()
+                .HasOne(location => location.Cart)
+                .WithOne(cart => cart.Location)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

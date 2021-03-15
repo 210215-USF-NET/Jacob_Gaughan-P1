@@ -3,16 +3,21 @@ using Microsoft.AspNetCore.Mvc;
 using StoreBL;
 using StoreModels;
 using StoreMVC.Models;
+using System.Collections.Generic;
 
 namespace StoreMVC.Controllers
 {
     public class CustomerController : Controller
     {
         private ICustomerBL _customerBL;
+        private ILocationBL _locationBL;
+        private ICartBL _cartBL;
         private IMapper _mapper;
 
-        public CustomerController(ICustomerBL customerBL, IMapper mapper)
+        public CustomerController(ICustomerBL customerBL, ICartBL cartBL, IMapper mapper, ILocationBL locationBL)
         {
+            _locationBL = locationBL;
+            _cartBL = cartBL;
             _customerBL = customerBL;
             _mapper = mapper;
         }
@@ -20,7 +25,7 @@ namespace StoreMVC.Controllers
         // GET: CustomerController
         public ActionResult Index(CustomerIndexVM currentCustomer)
         {
-            ViewBag.currentCustomer = currentCustomer.CustomerEmail;
+            ViewBag.CustomerId = currentCustomer.Id;
             return View(currentCustomer);
         }
 
@@ -48,6 +53,19 @@ namespace StoreMVC.Controllers
                 Customer customer = _customerBL.CheckCustomerLoginInfo(customer2Check.CustomerEmail, customer2Check.CustomerPassword);
                 if (customer != null)
                 {
+                    //create carts for each location
+                    foreach (var item in _locationBL.GetLocations())
+                    {
+                        if (_cartBL.GetCartById(customer2Check.Id, item.Id) == null)
+                        {
+                            //Cart newCart = new Cart();
+                            //newCart.CustomerId = customer2Check.Id;
+                            //newCart.LocationId = item.Id;
+                            //newCart.ProductIds = new List<int>();
+                            //newCart.ProductQuantities = new List<int>();
+                            //_cartBL.AddCart(newCart);
+                        }
+                    }
                     return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerByEmail(customer2Check.CustomerEmail)));
                 }
                 else
@@ -78,6 +96,16 @@ namespace StoreMVC.Controllers
                     {
                         Customer createdCustomer = _mapper.cast2Customer(newCustomer);
                         _customerBL.AddCustomer(_mapper.cast2Customer(newCustomer));
+                        //create carts for each location
+                        foreach(var item in _locationBL.GetLocations())
+                        {
+                            Cart newCart = new Cart();
+                            newCart.CustomerId = _customerBL.GetCustomerByEmail(newCustomer.CustomerEmail).Id;
+                            newCart.LocationId = item.Id;
+                            newCart.ProductIds = new List<int>();
+                            newCart.ProductQuantities = new List<int>();
+                            _cartBL.AddCart(newCart);
+                        }
                         return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_mapper.cast2Customer(newCustomer)));
                     }
                     else

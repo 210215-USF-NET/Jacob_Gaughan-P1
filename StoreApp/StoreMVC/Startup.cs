@@ -23,15 +23,7 @@ namespace StoreMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-                options.EnableEndpointRouting = false
-            );
             services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(1);
-            });
-
             services.AddControllersWithViews();
             services.AddDbContext<StoreDBContext>(options => options.UseNpgsql(Configuration.GetConnectionString("StoreDB")));
             services.AddScoped<ICustomerRepository, StoreRepoDB>();
@@ -39,12 +31,14 @@ namespace StoreMVC
             services.AddScoped<IOrderRepository, StoreRepoDB>();
             services.AddScoped<IProductRepository, StoreRepoDB>();
             services.AddScoped<IManagerRepository, StoreRepoDB>();
+            services.AddScoped<ICartRepository, StoreRepoDB>();
             services.AddScoped<ICustomerBL, CustomerBL>();
             services.AddScoped<ILocationBL, LocationBL>();
             services.AddScoped<IOrderBL, OrderBL>();
             services.AddScoped<IProductBL, ProductBL>();
-            services.AddScoped<IMapper, Mapper>();
+            services.AddScoped<ICartBL, CartBL>();
             services.AddScoped<IManagerBL, ManagerBL>();
+            services.AddScoped<IMapper, Mapper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,12 +58,12 @@ namespace StoreMVC
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthorization();
-            app.UseSession();
-            app.UseMvc(routes =>
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

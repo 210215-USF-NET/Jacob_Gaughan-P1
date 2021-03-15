@@ -1,12 +1,11 @@
 ﻿@model StoreMVC.Models.LocationEditVM
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Location";
+    Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>Location</h4>
+<h1>Edit Location</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -14,25 +13,26 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
+                <input asp-for="Address" class="form-control" value="@Model.Address" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="City" class="control-label"></label>
-                <input asp-for="City" class="form-control" />
+                <input asp-for="City" class="form-control" value="@Model.City" />
                 <span asp-validation-for="City" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
+                <input asp-for="State" class="form-control" value="@Model.State" />
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Zipcode" class="control-label"></label>
-                <input asp-for="Zipcode" class="form-control" />
+                <input asp-for="Zipcode" class="form-control" value="@Model.Zipcode" />
                 <span asp-validation-for="Zipcode" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="Id" value=@Model.Id />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -41,5 +41,5 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ManagerIndex">Back to Locations</a>
 </div>

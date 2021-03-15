@@ -171,5 +171,77 @@ namespace StoreMVC.Models
                 ManagerPassword = manager2Bcasted.ManagerPassword
             };
         }
+
+        public Product cast2Product(ProductCRVM product2Bcasted)
+        {
+            return new Product
+            {
+                Id = product2Bcasted.Id,
+                ProductName = product2Bcasted.ProductName,
+                ProductPrice = product2Bcasted.ProductPrice,
+                Quantity = product2Bcasted.Quantity,
+                LocationId = product2Bcasted.LocationId
+            };
+        }
+
+        public Product cast2Product(ProductEditVM product2Bcasted)
+        {
+            return new Product
+            {
+                Id = product2Bcasted.Id,
+                ProductName = product2Bcasted.ProductName,
+                ProductPrice = product2Bcasted.ProductPrice,
+                Quantity = product2Bcasted.Quantity,
+                LocationId = product2Bcasted.LocationId
+            };
+        }
+
+        public ProductCRVM cast2ProductCRVM(Product product)
+        {
+            return new ProductCRVM
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                ProductPrice = product.ProductPrice,
+                Quantity = product.Quantity,
+                LocationId = product.LocationId
+            };
+        }
+
+        public Product cast2ProductEditVM(Product product2Bcasted)
+        {
+            return new Product
+            {
+                Id = product2Bcasted.Id,
+                ProductName = product2Bcasted.ProductName,
+                ProductPrice = product2Bcasted.ProductPrice,
+                Quantity = product2Bcasted.Quantity,
+                LocationId = product2Bcasted.LocationId
+            };
+        }
+
+        public CartCRVM cast2CartCRVM(Cart cart)
+        {
+            return new CartCRVM
+            {
+                Id = cart.Id,
+                CustomerId = cart.CustomerId,
+                LocationId = cart.LocationId,
+                ProductIds = cart.ProductIds,
+                ProductQuantities = cart.ProductQuantities
+            };
+        }
+
+        public Cart cast2Cart(CartCRVM cart2Bcasted)
+        {
+            return new Cart
+            {
+                Id = cart2Bcasted.Id,
+                CustomerId = cart2Bcasted.CustomerId,
+                LocationId = cart2Bcasted.LocationId,
+                ProductIds = cart2Bcasted.ProductIds,
+                ProductQuantities = cart2Bcasted.ProductQuantities
+            };
+        }
     }
 }

@@ -8,7 +8,13 @@
 <div>
     <h4>Location: @Model.Location.Address @Model.Location.City, @Model.Location.State (@Model.Location.Zipcode)</h4>
 
-    <a asp-action="CreateProduct" class="btn btn-secondary">Add new product</a>
+    <div>
+        <a asp-action="ManagerIndex">Back to Locations</a>
+    </div>
+
+    <h5>All Products:</h5>
+
+    @Html.ActionLink("Add new product", "CreateProduct", "Location", new { locId = @Model.Location.Id }, new { @class = "btn btn-secondary" })
 
     @foreach (var product in Model.Products)
     {
@@ -23,6 +29,6 @@
                 @product.Quantity
             </p>
         </div>
-        @Html.ActionLink("Edit", "EditProduct", "Location", new { prodId = @product.Product.Id }, new { locId = @Model.Location.Id })
+        @Html.ActionLink("Edit", "EditProduct", "Location", new { prodId = @product.Id }, new { locId = @product.LocationId })
     }
 </div>

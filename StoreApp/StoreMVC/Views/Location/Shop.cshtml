@@ -14,14 +14,15 @@
     {
         <div>
             <h4>
-                @product.ProductName
+                Flavor: @product.ProductName
             </h4>
             <p>
-                @product.ProductPrice
+                Price: $@product.ProductPrice/pint
             </p>
             <p>
-                @product.Product.Inventory.Quantity
+                @product.Quantity pints in stock
             </p>
+            @Html.ActionLink("Add To Cart", "CartMenu", "Location", new { custId = ViewBag.CustomerId, locId = ViewBag.LocationId, prodId = product.Id })
         </div>
     }
 </div>

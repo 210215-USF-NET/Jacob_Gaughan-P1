@@ -6,7 +6,7 @@ namespace StoreDL
     {
         Cart AddCart(Cart newCart);
 
-        Cart AddToCart(Cart newCart, int invId, int quantity2Add);
+        Cart AddToCart(Cart cartToAddTo);
 
         Cart GetCartById(int custId, int locId);
     }
