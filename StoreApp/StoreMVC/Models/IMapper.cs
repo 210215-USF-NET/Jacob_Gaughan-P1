@@ -42,7 +42,7 @@ namespace StoreMVC.Models
 
         ProductIndexVM cast2ProductIndexVM(Product product);
 
-        Product cast2ProductEditVM(Product product2Bcasted);
+        ProductEditVM cast2ProductEditVM(Product product2Bcasted);
 
         CartCRVM cast2CartCRVM(Cart cart);
 

@@ -169,6 +169,34 @@ namespace StoreMVC.Controllers
             return View();
         }
 
+        // GET: Locations/EditProduct/5
+        public ActionResult EditProduct(int prodId)
+        {
+            return View(_mapper.cast2ProductEditVM(_productBL.GetProductById(prodId)));
+        }
+
+        // POST: Locations/EditProduct/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProduct(ProductEditVM product2Bupdated)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _productBL.UpdateProduct(_mapper.cast2Product(product2Bupdated));
+                    return RedirectToAction(nameof(ManagerIndex));
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            return View();
+        }
+
         public ActionResult Delete(int locId)
         {
             return View(_mapper.cast2LocationEditVM(_locationBL.GetLocationById(locId)));

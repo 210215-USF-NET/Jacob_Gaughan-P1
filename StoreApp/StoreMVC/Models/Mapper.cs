@@ -220,9 +220,9 @@ namespace StoreMVC.Models
             };
         }
 
-        public Product cast2ProductEditVM(Product product2Bcasted)
+        public ProductEditVM cast2ProductEditVM(Product product2Bcasted)
         {
-            return new Product
+            return new ProductEditVM
             {
                 Id = product2Bcasted.Id,
                 ProductName = product2Bcasted.ProductName,
