@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/jg-server/databases/storeDB",
+      "type": "mssql.azure",
+      "connectionId": "StoreDB",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
