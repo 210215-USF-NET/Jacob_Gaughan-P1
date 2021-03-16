@@ -4,6 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <StartupObject></StartupObject>
     <UserSecretsId>38d09d49-3f75-4eac-b609-77bdef5aa025</UserSecretsId>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
