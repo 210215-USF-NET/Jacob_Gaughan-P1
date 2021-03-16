@@ -84,7 +84,7 @@ namespace StoreMVC.Controllers
                         if (_cartBL.GetCartById(custId, item.Id) == null)
                         {
                             Cart newCart = new Cart();
-                            newCart.CustomerId = customer2Check.Id;
+                            newCart.CustomerId = custId;
                             newCart.LocationId = item.Id;
                             newCart.ProductIds = new List<int>();
                             newCart.ProductQuantities = new List<int>();
