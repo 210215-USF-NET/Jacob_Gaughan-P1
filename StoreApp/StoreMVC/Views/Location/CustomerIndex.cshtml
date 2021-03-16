@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_CustomerLayout.cshtml";
 }
 
-@Html.ActionLink("Back to Customer Menu", "CustomerIndex", "Customer", new { custId = ViewBag.CustomerId })
+@Html.ActionLink("Back to Customer Menu", "CustomerIndex", "Customer", new { custId = ViewBag.CustomerId }, new { @class = "btn btn-secondary" })
 
 <h1>Choose a location</h1>
 
@@ -44,7 +44,7 @@
                     @Html.DisplayFor(modelItem => item.Zipcode)
                 </td>
                 <td>
-                    @Html.ActionLink("Shop Location", "Shop", "Location", new { locId = item.Id, custId = ViewBag.CustomerId })
+                    @Html.ActionLink("Shop Location", "Shop", "Location", new { locId = item.Id, custId = ViewBag.CustomerId }, new { @class = "btn btn-primary" })
                 </td>
             </tr>
         }

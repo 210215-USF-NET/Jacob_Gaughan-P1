@@ -211,6 +211,33 @@ namespace StoreMVC.Controllers
             return RedirectToAction(nameof(ManagerIndex));
         }
 
+        public ActionResult RemoveProductFromCart(int prodId, int cartId)
+        {
+            Cart newCart = _cartBL.GetCartByCartId(cartId);
+            newCart.ProductIds = _cartBL.GetCartByCartId(cartId).ProductIds;
+            newCart.ProductQuantities = _cartBL.GetCartByCartId(cartId).ProductQuantities;
+            for (int i = 0; i < newCart.ProductIds.Count(); i++)
+            {
+                if(newCart.ProductIds[i] == prodId)
+                {
+                    newCart.ProductIds.RemoveAt(i);
+                    newCart.ProductQuantities.RemoveAt(i);
+                }
+            }
+            _cartBL.AddToCart(newCart);
+            List<ProductIndexVM> ProductList = new List<ProductIndexVM>();
+            foreach (var item in _cartBL.GetCartByCartId(cartId).ProductIds)
+            {
+                ProductList.Add(_mapper.cast2ProductIndexVM(_productBL.GetProductById(item)));
+            }
+            Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>>(
+                _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(_cartBL.GetCartByCartId(cartId).LocationId)),
+                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(cartId).CustomerId)),
+                _mapper.cast2CartCRVM(_cartBL.GetCartByCartId(cartId)),
+                ProductList);
+            return View("Checkout", tuple);
+        }
+
         public ActionResult CartMenu(int custId, int locId, int prodId)
         {
             Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM>(
@@ -242,6 +269,11 @@ namespace StoreMVC.Controllers
                     else if (updatedQuantity <= 0)
                     {
                         ViewBag.ErrorMessage = $"You want to buy {updatedQuantity}? That doesn't make sense.";
+                        return View(tuple);
+                    }
+                    else if (_cartBL.GetCartById(customerId, locationId).ProductIds.Contains(productId))
+                    {
+                        ViewBag.ErrorMessage = $"You already have {_productBL.GetProductById(productId).ProductName} in your cart.";
                         return View(tuple);
                     }
                     Cart UpdatedCart = _cartBL.GetCartById(customerId, locationId);
@@ -291,6 +323,24 @@ namespace StoreMVC.Controllers
 
         public ActionResult PlaceOrder(int cartId, decimal total, List<ProductIndexVM> products)
         {
+            List<ProductIndexVM> ProductList = new List<ProductIndexVM>();
+            foreach (var item in _cartBL.GetCartByCartId(cartId).ProductIds)
+            {
+                ProductList.Add(_mapper.cast2ProductIndexVM(_productBL.GetProductById(item)));
+            }
+
+            Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, CartCRVM, List<ProductIndexVM>>(
+                _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(_cartBL.GetCartByCartId(cartId).LocationId)),
+                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(cartId).CustomerId)),
+                _mapper.cast2CartCRVM(_cartBL.GetCartByCartId(cartId)),
+                ProductList);
+
+            if (_cartBL.GetCartByCartId(cartId).ProductIds.Count == 0)
+            {
+                ViewBag.ErrorMessage = "There is nothing in your cart!";
+                ViewBag.Total = 0.00;
+                return View("Checkout", tuple);
+            }
             DateTime now = DateTime.Now;
             Order newOrder = new Order();
             newOrder.CustomerId = _cartBL.GetCartByCartId(cartId).CustomerId;

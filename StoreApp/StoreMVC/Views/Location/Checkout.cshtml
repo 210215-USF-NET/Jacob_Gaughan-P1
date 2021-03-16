@@ -6,6 +6,8 @@
     int i = 0;
 }
 
+@Html.ActionLink("Back To Products", "Shop", "Location", new { locId = Model.Item1.Id, custId = Model.Item2.Id }, new { @class = "btn btn-secondary" })
+
 <div>
     <h1>
         @Model.Item2.CustomerName's Cart
@@ -19,7 +21,7 @@
     {
         <div>
             <p>
-                @item.ProductName | $@item.ProductPrice | @Model.Item3.ProductQuantities[i] | @Html.ActionLink("Remove", "RemoveProductFromCart", "Location", new { prodId = item.Id, cartId = Model.Item3.Id }, new { @class = "text-danger" })
+                @item.ProductName | $@item.ProductPrice | @Model.Item3.ProductQuantities[i] Pints | @Html.ActionLink("Remove", "RemoveProductFromCart", "Location", new { prodId = item.Id, cartId = Model.Item3.Id }, new { @class = "text-danger" })
             </p>
         </div>
         i++;
@@ -28,5 +30,9 @@
         Current Total: $@ViewBag.Total
     </h6>
 
-    @Html.ActionLink("Place Order", "PlaceOrder", "Location", new { cartId = Model.Item3.Id, total = ViewBag.Total, products = Model.Item4 }, new { @class = "" })
+    @Html.ActionLink("Place Order", "PlaceOrder", "Location", new { cartId = Model.Item3.Id, total = ViewBag.Total, products = Model.Item4 }, new { @class = "btn btn-success" })
+
+    <p class="text-danger">
+        @ViewBag.ErrorMessage
+    </p>
 </div>

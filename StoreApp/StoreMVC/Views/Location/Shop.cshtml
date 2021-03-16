@@ -9,28 +9,30 @@
 
 <div>
     <div>
-        @Html.ActionLink("Back To Locations", "CustomerIndex", "Location", new { custId = Model.Customer.Id })
+        @Html.ActionLink("Back To Locations", "CustomerIndex", "Location", new { custId = Model.Customer.Id }, new { @class = "btn btn-secondary" })
     </div>
 
     <div>
-        @Html.ActionLink("Checkout", "Checkout", "Location", new { cartId = Model.Cart.Id })
+        @Html.ActionLink("Checkout", "Checkout", "Location", new { cartId = Model.Cart.Id }, new { @class = "btn btn-success mt-2" })
     </div>
 
     <h4>Product List</h4>
 
-    @foreach (var product in Model.Products)
-    {
-        <div>
-            <h4>
-                Flavor: @product.ProductName
-            </h4>
-            <p>
-                Price: $@product.ProductPrice/pint
-            </p>
-            <p>
-                @product.Quantity pints in stock
-            </p>
-            @Html.ActionLink("Add To Cart", "CartMenu", "Location", new { custId = Model.Customer.Id, locId = Model.Location.Id, prodId = product.Id })
-        </div>
-    }
+    <div class="container">
+        @foreach (var product in Model.Products)
+        {
+            <div class="">
+                <h4>
+                    @product.ProductName
+                </h4>
+                <p>
+                    Price: $@product.ProductPrice/pint
+                </p>
+                <p>
+                    (@product.Quantity pints in stock)
+                </p>
+                @Html.ActionLink("Add To Cart", "CartMenu", "Location", new { custId = Model.Customer.Id, locId = Model.Location.Id, prodId = product.Id }, new { @class = "btn btn-primary" })
+            </div>
+        }
+    </div>
 </div>

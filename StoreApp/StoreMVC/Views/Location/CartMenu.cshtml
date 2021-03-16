@@ -13,13 +13,13 @@
     <div class="col-md-4">
         <form asp-action="CartMenu">
             <div class="form-group">
-                <label class="control-label">Product: @Model.Item3.ProductName</label>
+                <label class="control-label h5">@Model.Item3.ProductName</label>
                 <input type="hidden" name="productId" class="form-control" value="@Model.Item3.Id" />
                 <input type="hidden" name="locationId" class="form-control" value="@Model.Item1.Id" />
                 <input type="hidden" name="customerId" class="form-control" value="@Model.Item2.Id" />
             </div>
             <div class="form-group">
-                <label class="control-label">Quantity (@Model.Item3.Quantity in Stock)</label>
+                <label class="control-label">Quantity (@Model.Item3.Quantity Pints in Stock)</label>
                 <input name="updatedQuantity" class="form-control" type="number" value="1" autofocus />
             </div>
             <input type="hidden" name="cartId" value=@Model.Item4.Id />
@@ -34,5 +34,5 @@
 </div>
 
 <div>
-    @Html.ActionLink("Back To Products", "Shop", "Location", new { locId = @Model.Item1.Id, custId = @Model.Item2.Id })
+    @Html.ActionLink("Back To Products", "Shop", "Location", new { locId = @Model.Item1.Id, custId = @Model.Item2.Id }, new { @class = "btn btn-secondary" })
 </div>

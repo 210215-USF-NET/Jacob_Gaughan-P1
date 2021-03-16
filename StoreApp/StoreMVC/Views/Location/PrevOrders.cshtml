@@ -6,7 +6,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Manager Menu", "ManagerIndex", "Location")
+    @Html.ActionLink("Back to Manager Menu", "ManagerIndex", "Location", new { @class = "btn btn-secondary mb-2" })
 </div>
 
 <h1>@Model.Item2.Address @Model.Item2.City, @Model.Item2.State (@Model.Item2.Zipcode)'s Previous Orders</h1>

@@ -7,9 +7,7 @@
 
 <h1>Choose a location</h1>
 
-<p class="text-center">
-    <a asp-action="Create" class="btn btn-secondary">Create new location</a>
-</p>
+<a asp-action="Create" class="btn btn-primary mb-2">Create new location</a>
 
 <table class="table-dark table table-bordered">
     <thead>
@@ -46,10 +44,10 @@
                     @Html.DisplayFor(modelItem => item.Zipcode)
                 </td>
                 <td>
-                    @Html.ActionLink("View Orders", "PrevOrders", "Location", new { locId = item.Id }) |
-                    @Html.ActionLink("Edit Products", "ManagerProductView", "Location", new { locId = item.Id }) |
-                    @Html.ActionLink("Edit", "Edit", "Location", new { locId = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", "Location", new { locId = item.Id }, new { @class = "text-danger" })
+                    @Html.ActionLink("View Orders", "PrevOrders", "Location", new { locId = item.Id }, new { @class = "btn btn-primary mr-2" })
+                    @Html.ActionLink("Edit Products", "ManagerProductView", "Location", new { locId = item.Id }, new { @class = "btn btn-primary mr-2" })
+                    @Html.ActionLink("Edit", "Edit", "Location", new { locId = item.Id }, new { @class = "btn btn-warning mr-2" })
+                    @Html.ActionLink("Delete", "Delete", "Location", new { locId = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }

@@ -6,7 +6,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Customer Menu", "CustomerIndex", "Customer", new { custId = Model.Item1.Id })
+    @Html.ActionLink("Back to Customer Menu", "CustomerIndex", "Customer", new { custId = Model.Item1.Id }, new { @class = "btn btn-secondary" })
 </div>
 
 <h1>@Model.Item1.CustomerName's Previous Orders</h1>

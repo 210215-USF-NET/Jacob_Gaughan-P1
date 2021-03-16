@@ -9,12 +9,12 @@
     <h4>Location: @Model.Item1.Address @Model.Item1.City, @Model.Item1.State (@Model.Item1.Zipcode)</h4>
 
     <div>
-        <a asp-action="ManagerIndex">Back to Locations</a>
+        <a asp-action="ManagerIndex" class="btn btn-secondary mb-2">Back to Locations</a>
     </div>
 
     <h5>All Products:</h5>
 
-    @Html.ActionLink("Add new product", "CreateProduct", "Location", new { locId = @Model.Item1.Id }, new { @class = "btn btn-secondary" })
+    @Html.ActionLink("Add new product", "CreateProduct", "Location", new { locId = @Model.Item1.Id }, new { @class = "btn btn-primary mb-2" })
 
     <table class="table-dark table table-bordered">
         <thead>
@@ -45,7 +45,7 @@
                         @item.Quantity pints
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "ProductEdit", "Location", new { prodId = item.Id })
+                        @Html.ActionLink("Edit", "ProductEdit", "Location", new { prodId = item.Id }, new { @class = "btn btn-warning" })
                     </td>
                 </tr>
             }
