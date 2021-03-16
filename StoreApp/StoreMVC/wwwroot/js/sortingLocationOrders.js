@@ -1,5 +1,4 @@
-﻿
-document.getElementById('sortSelector').onchange = changeSorting;
+﻿document.getElementById('sortSelector').onchange = changeSorting;
 
 function changeSorting() {
     var table, rows, switching, i, x, y, shouldSwitch;
@@ -56,7 +55,7 @@ function changeSorting() {
                     shouldSwitch = false;
                     x = rows[i].getElementsByTagName("td")[2].innerHTML;
                     y = rows[i + 1].getElementsByTagName("td")[2].innerHTML;
-                    
+
                     if (parseFloat(x) < parseFloat(y)) {
                         shouldSwitch = true;
                         break;

@@ -1,8 +1,4 @@
-﻿using StoreModels;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace StoreMVC.Models
 {
@@ -16,7 +12,9 @@ namespace StoreMVC.Models
         public int Id { get; set; }
         public int CustomerId { get; set; }
         public int LocationId { get; set; }
-        public List<int> ProductIds {
+
+        public List<int> ProductIds
+        {
             get { return productIds; }
             set
             {
@@ -27,7 +25,9 @@ namespace StoreMVC.Models
                 productIds = value;
             }
         }
-        public List<int> ProductQuantities {
+
+        public List<int> ProductQuantities
+        {
             get { return productQuantities; }
             set
             {

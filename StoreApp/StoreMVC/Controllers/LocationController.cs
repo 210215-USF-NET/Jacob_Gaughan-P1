@@ -262,7 +262,7 @@ namespace StoreMVC.Controllers
         public ActionResult Checkout(int cartId)
         {
             List<ProductIndexVM> ProductList = new List<ProductIndexVM>();
-            foreach(var item in _cartBL.GetCartByCartId(cartId).ProductIds)
+            foreach (var item in _cartBL.GetCartByCartId(cartId).ProductIds)
             {
                 ProductList.Add(_mapper.cast2ProductIndexVM(_productBL.GetProductById(item)));
             }
@@ -275,7 +275,7 @@ namespace StoreMVC.Controllers
 
             decimal CartTotal = 0.00m;
 
-            for(int j = 0; j < _cartBL.GetCartByCartId(cartId).ProductIds.Count; j++)
+            for (int j = 0; j < _cartBL.GetCartByCartId(cartId).ProductIds.Count; j++)
             {
                 for (int h = 0; h < _cartBL.GetCartByCartId(cartId).ProductQuantities[j]; h++)
                 {
@@ -302,7 +302,7 @@ namespace StoreMVC.Controllers
             }
             _orderBL.AddOrder(newOrder);
             int i = 0;
-            foreach(var item in _cartBL.GetCartByCartId(cartId).ProductIds)
+            foreach (var item in _cartBL.GetCartByCartId(cartId).ProductIds)
             {
                 Product updateProduct = _productBL.GetProductById(item);
                 updateProduct.Quantity = _productBL.GetProductById(item).Quantity - _cartBL.GetCartByCartId(cartId).ProductQuantities[i];

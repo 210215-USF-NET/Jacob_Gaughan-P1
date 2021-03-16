@@ -13,7 +13,9 @@ namespace StoreModels
         public Customer Customer { get; set; }
         public int LocationId { get; set; }
         public Location Location { get; set; }
-        public List<int> ProductIds {
+
+        public List<int> ProductIds
+        {
             get { return productIds; }
             set
             {
@@ -24,6 +26,7 @@ namespace StoreModels
                 productIds = value;
             }
         }
+
         public decimal Total { get; set; }
         public DateTime Date { get; set; }
         public int Id { get; set; }

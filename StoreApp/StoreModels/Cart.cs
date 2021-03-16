@@ -15,7 +15,9 @@ namespace StoreModels
         public Customer Customer { get; set; }
         public Location Location { get; set; }
         public ICollection<Product> Products { get; set; }
-        public List<int> ProductIds {
+
+        public List<int> ProductIds
+        {
             get { return productIds; }
             set
             {
@@ -26,7 +28,9 @@ namespace StoreModels
                 productIds = value;
             }
         }
-        public List<int> ProductQuantities {
+
+        public List<int> ProductQuantities
+        {
             get { return productQuantities; }
             set
             {

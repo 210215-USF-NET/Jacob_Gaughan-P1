@@ -45,7 +45,7 @@ namespace StoreMVC.Controllers
 
             foreach (var item in _orderBL.GetOrders().Select(order => _mapper.cast2OrderIndexVM(order)).ToList())
             {
-                if(item.CustomerId == custId)
+                if (item.CustomerId == custId)
                 {
                     OrderList.Add(item);
                 }
@@ -123,7 +123,7 @@ namespace StoreMVC.Controllers
                         _customerBL.AddCustomer(_mapper.cast2Customer(newCustomer));
                         int custId = _customerBL.GetCustomerByEmail(newCustomer.CustomerEmail).Id;
                         //create carts for each location
-                        foreach(var item in _locationBL.GetLocations())
+                        foreach (var item in _locationBL.GetLocations())
                         {
                             Cart newCart = new Cart();
                             newCart.CustomerId = _customerBL.GetCustomerByEmail(newCustomer.CustomerEmail).Id;

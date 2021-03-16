@@ -1,5 +1,4 @@
-﻿using StoreModels;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace StoreMVC.Models
