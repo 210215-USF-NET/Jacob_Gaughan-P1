@@ -78,10 +78,11 @@ namespace StoreMVC.Controllers
 
         public ActionResult ManagerProductView(int locId)
         {
-            dynamic locProdInv = new ExpandoObject();
-            locProdInv.Location = _locationBL.GetLocationById(locId);
-            locProdInv.Products = _productBL.GetProductsAtLocation(locId);
-            return View(locProdInv);
+            List<ProductIndexVM> ProductList = _productBL.GetProductsAtLocation(locId).Select(product => _mapper.cast2ProductIndexVM(product)).ToList();
+            Tuple<LocationIndexVM, List<ProductIndexVM>> locProdsTuple = new Tuple<LocationIndexVM, List<ProductIndexVM>>(
+                _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(locId)),
+                ProductList);
+            return View(locProdsTuple);
         }
 
         public ActionResult CreateProduct(int locId)
@@ -169,18 +170,18 @@ namespace StoreMVC.Controllers
             return View();
         }
 
-        // GET: Locations/EditProduct/5
-        public ActionResult EditProduct(int prodId)
+        // GET: Locations/ProductEdit/5
+        public ActionResult ProductEdit(int prodId)
         {
             return View(_mapper.cast2ProductEditVM(_productBL.GetProductById(prodId)));
         }
 
-        // POST: Locations/EditProduct/5
+        // POST: Locations/ProductEdit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditProduct(ProductEditVM product2Bupdated)
+        public ActionResult ProductEdit(ProductEditVM product2Bupdated)
         {
             if (ModelState.IsValid)
             {

@@ -220,15 +220,15 @@ namespace StoreMVC.Models
             };
         }
 
-        public ProductEditVM cast2ProductEditVM(Product product2Bcasted)
+        public ProductEditVM cast2ProductEditVM(Product product)
         {
             return new ProductEditVM
             {
-                Id = product2Bcasted.Id,
-                ProductName = product2Bcasted.ProductName,
-                ProductPrice = product2Bcasted.ProductPrice,
-                Quantity = product2Bcasted.Quantity,
-                LocationId = product2Bcasted.LocationId
+                Id = product.Id,
+                ProductName = product.ProductName,
+                ProductPrice = product.ProductPrice,
+                Quantity = product.Quantity,
+                LocationId = product.LocationId
             };
         }
 

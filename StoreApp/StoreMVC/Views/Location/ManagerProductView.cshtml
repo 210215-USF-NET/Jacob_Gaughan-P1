@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model Tuple<LocationIndexVM, List<ProductIndexVM>>
 
 @{
     Layout = "../Shared/_ManagerLayout.cshtml";
@@ -6,7 +6,7 @@
 }
 
 <div>
-    <h4>Location: @Model.Location.Address @Model.Location.City, @Model.Location.State (@Model.Location.Zipcode)</h4>
+    <h4>Location: @Model.Item1.Address @Model.Item1.City, @Model.Item1.State (@Model.Item1.Zipcode)</h4>
 
     <div>
         <a asp-action="ManagerIndex">Back to Locations</a>
@@ -14,21 +14,41 @@
 
     <h5>All Products:</h5>
 
-    @Html.ActionLink("Add new product", "CreateProduct", "Location", new { locId = @Model.Location.Id }, new { @class = "btn btn-secondary" })
+    @Html.ActionLink("Add new product", "CreateProduct", "Location", new { locId = @Model.Item1.Id }, new { @class = "btn btn-secondary" })
 
-    @foreach (var product in Model.Products)
-    {
-        <div>
-            <h4>
-                @product.ProductName
-            </h4>
-            <p>
-                @product.ProductPrice
-            </p>
-            <p>
-                @product.Quantity
-            </p>
-        </div>
-        @Html.ActionLink("Edit", "EditProduct", "Location", new { prodId = product.Id })
-    }
+    <table class="table-dark table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Item2)
+            {
+                <tr>
+                    <td>
+                        @item.ProductName
+                    </td>
+                    <td>
+                        $@item.ProductPrice
+                    </td>
+                    <td>
+                        @item.Quantity pints
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "ProductEdit", "Location", new { prodId = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
