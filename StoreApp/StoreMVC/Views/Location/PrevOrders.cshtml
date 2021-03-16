@@ -1,0 +1,60 @@
+﻿@model Tuple<List<OrderIndexVM>, LocationIndexVM>
+
+@{
+    Layout = "../Shared/_ManagerLayout.cshtml";
+    ViewData["Title"] = "Location Orders";
+}
+
+<div>
+    @Html.ActionLink("Back to Manager Menu", "ManagerIndex", "Location")
+</div>
+
+<h1>@Model.Item2.Address @Model.Item2.City, @Model.Item2.State (@Model.Item2.Zipcode)'s Previous Orders</h1>
+
+<div>
+    <h5>Sort By:</h5>
+
+    <select id="sortSelector" class="custom-select">
+        <option value="SortByDateOldToNew" default>By Date (Old to New)</option>
+        <option value="SortByDateNewToOld">By Date (New to Old)</option>
+        <option value="SortByPriceHighToLow">By Price (High to Low)</option>
+        <option value="SortByPriceLowToHigh">By Price (Low to High)</option>
+        <option value="SortByCustomer">By Customer</option>
+    </select>
+
+    <table id="orderTable" class="table-dark table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>
+                    Customer ID
+                </th>
+                <th>
+                    Purchase Date
+                </th>
+                <th>
+                    Total
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="orderHistory">
+            @foreach (var item in Model.Item1)
+            {
+            <tr class="orderList">
+                <td>
+                    @item.CustomerId
+                </td>
+                <td>
+                    @item.Date
+                </td>
+                <td>
+                    @item.Total
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script src="~/js/sortingLocationOrders.js"></script>

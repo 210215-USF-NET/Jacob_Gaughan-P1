@@ -59,6 +59,23 @@ namespace StoreMVC.Controllers
             return View(locProdCust);
         }
 
+        public ActionResult PrevOrders(int locId)
+        {
+            List<OrderIndexVM> OrderList = new List<OrderIndexVM>();
+
+            foreach (var item in _orderBL.GetOrders().Select(order => _mapper.cast2OrderIndexVM(order)).ToList())
+            {
+                if (item.LocationId == locId)
+                {
+                    OrderList.Add(item);
+                }
+            }
+            Tuple<List<OrderIndexVM>, LocationIndexVM> locOrderTuple = new Tuple<List<OrderIndexVM>, LocationIndexVM>(
+                OrderList,
+                _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(locId)));
+            return View(locOrderTuple);
+        }
+
         public ActionResult ManagerProductView(int locId)
         {
             dynamic locProdInv = new ExpandoObject();
@@ -176,8 +193,14 @@ namespace StoreMVC.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CartMenu(int updatedQuantity, int productId, int locationId, int customerId)
         {
+            Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM> tuple = new Tuple<LocationIndexVM, CustomerIndexVM, ProductIndexVM, CartCRVM>(
+              _mapper.cast2LocationIndexVM(_locationBL.GetLocationById(locationId)),
+              _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(customerId)),
+              _mapper.cast2ProductIndexVM(_productBL.GetProductById(productId)),
+              _mapper.cast2CartCRVM(_cartBL.GetCartById(customerId, locationId)));
             if (ModelState.IsValid)
             {
                 try
@@ -185,12 +208,12 @@ namespace StoreMVC.Controllers
                     if (updatedQuantity > _productBL.GetProductById(productId).Quantity)
                     {
                         ViewBag.ErrorMessage = "Out of Stock!";
-                        return View();
+                        return View(tuple);
                     }
-                    else if (updatedQuantity == 0)
+                    else if (updatedQuantity <= 0)
                     {
-                        ViewBag.ErrorMessage = "x + 0 = x!";
-                        return View();
+                        ViewBag.ErrorMessage = $"You want to buy {updatedQuantity}? That doesn't make sense.";
+                        return View(tuple);
                     }
                     Cart UpdatedCart = _cartBL.GetCartById(customerId, locationId);
                     UpdatedCart.ProductIds.Add(productId);
@@ -201,11 +224,11 @@ namespace StoreMVC.Controllers
                 catch
                 {
                     ViewBag.ErrorMessage = "Please enter the required fields!";
-                    return View();
+                    return View(tuple);
                 }
             }
             ViewBag.ErrorMessage = "Please enter the required fields!";
-            return View();
+            return View(tuple);
         }
 
         public ActionResult Checkout(int cartId)
@@ -250,7 +273,18 @@ namespace StoreMVC.Controllers
                 newOrder.ProductIds.Add(item.Id);
             }
             _orderBL.AddOrder(newOrder);
-            _cartBL.EmptyCart(_cartBL.GetCartByCartId(cartId));
+            int i = 0;
+            foreach(var item in _cartBL.GetCartByCartId(cartId).ProductIds)
+            {
+                Product updateProduct = _productBL.GetProductById(item);
+                updateProduct.Quantity = _productBL.GetProductById(item).Quantity - _cartBL.GetCartByCartId(cartId).ProductQuantities[i];
+                _productBL.UpdateProduct(updateProduct);
+                i++;
+            }
+            Cart UpdatedCart = _cartBL.GetCartByCartId(cartId);
+            UpdatedCart.ProductIds.Clear();
+            UpdatedCart.ProductQuantities.Clear();
+            _cartBL.AddToCart(UpdatedCart);
 
             return RedirectToAction("Index", "Customer", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(cartId).CustomerId)));
         }

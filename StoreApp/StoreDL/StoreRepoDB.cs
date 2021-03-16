@@ -177,17 +177,6 @@ namespace StoreDL
             return currentCart;
         }
 
-        public Cart EmptyCart(Cart cart2Bemptied)
-        {
-            cart2Bemptied.ProductIds.Clear();
-            cart2Bemptied.ProductQuantities.Clear();
-            Cart updatedCart = _context.Carts.Find(cart2Bemptied.Id);
-            _context.Entry(updatedCart).CurrentValues.SetValues(cart2Bemptied);
-            _context.SaveChanges();
-            _context.ChangeTracker.Clear();
-            return cart2Bemptied;
-        }
-
         public Cart GetCartById(int custId, int locId)
         {
             return _context.Carts.AsNoTracking().FirstOrDefault(cart => cart.CustomerId == custId && cart.LocationId == locId);

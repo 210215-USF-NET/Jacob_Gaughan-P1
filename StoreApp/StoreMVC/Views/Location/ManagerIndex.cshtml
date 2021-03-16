@@ -46,8 +46,9 @@
                     @Html.DisplayFor(modelItem => item.Zipcode)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit Location", "Edit", "Location", new { locId = item.Id }) |
+                    @Html.ActionLink("View Orders", "PrevOrders", "Location", new { locId = item.Id }) |
                     @Html.ActionLink("Edit Products", "ManagerProductView", "Location", new { locId = item.Id }) |
+                    @Html.ActionLink("Edit", "Edit", "Location", new { locId = item.Id }) |
                     @Html.ActionLink("Delete", "Delete", "Location", new { locId = item.Id }, new { @class = "text-danger" })
                 </td>
             </tr>

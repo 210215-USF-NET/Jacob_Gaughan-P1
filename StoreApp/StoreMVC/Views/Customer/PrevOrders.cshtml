@@ -2,20 +2,31 @@
 
 @{
     Layout = "../Shared/_CustomerLayout.cshtml";
-    ViewData["Title"] = "Customer Details";
+    ViewData["Title"] = "Customer Orders";
 }
 
-<h1>Details</h1>
+<div>
+    @Html.ActionLink("Back to Customer Menu", "CustomerIndex", "Customer", new { custId = Model.Item1.Id })
+</div>
+
+<h1>@Model.Item1.CustomerName's Previous Orders</h1>
 
 <div>
-    <h4>@Model.Item1.CustomerName's Previous Orders</h4>
+    <h5>Sort By:</h5>
 
+    <select id="sortSelector" class="custom-select">
+        <option value="SortByDateOldToNew" default>By Date (Old to New)</option>
+        <option value="SortByDateNewToOld">By Date (New to Old)</option>
+        <option value="SortByPriceHighToLow">By Price (High to Low)</option>
+        <option value="SortByPriceLowToHigh">By Price (Low to High)</option>
+        <option value="SortByLocation">By Location</option>
+    </select>
 
-    <table class="table-dark table table-bordered">
+    <table id="orderTable" class="table-dark table table-bordered mt-3">
         <thead>
             <tr>
                 <th>
-                    Location
+                    Location ID
                 </th>
                 <th>
                     Purchase Date
@@ -29,7 +40,7 @@
         <tbody id="orderHistory">
             @foreach (var item in Model.Item2)
             {
-                <tr class="@item.LocationId @item.Date">
+                <tr class="orderList">
                     <td class="orderLocation">
                         @item.LocationId
                     </td>
@@ -37,13 +48,14 @@
                         @item.Date
                     </td>
                     <td class="orderTotal">
-                        $@item.Total
+                        @item.Total
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
-<div>
-    @Html.ActionLink("Back to Customer Menu", "CustomerIndex", "Customer", new { custId = Model.Item1.Id })
-</div>
+
+
+<script src="~/js/sortingCustomerOrders.js">
+</script>
