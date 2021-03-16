@@ -14,6 +14,6 @@ namespace StoreModels
         public string Zipcode { get; set; }
         public ICollection<Order> Orders { get; set; }
         public ICollection<Product> Products { get; set; }
-        public Cart Cart { get; set; }
+        public ICollection<Cart> Carts { get; set; }
     }
 }

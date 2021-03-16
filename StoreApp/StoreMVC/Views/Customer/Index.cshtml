@@ -6,7 +6,7 @@
 }
 
 <div class="text-center py-lg-4">
-    <h1 class="display-4">Welcome @Model.CustomerName to Jake's Ice Creamery</h1>
+    <h1 class="display-4">Welcome, @Model.CustomerName, to Jake's Ice Creamery</h1>
     @Html.ActionLink("Shop Locations", "CustomerIndex", "Location", new { custId = Model.Id }, new { @class = "hello" })
 </div>
 

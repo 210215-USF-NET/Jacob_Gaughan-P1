@@ -34,7 +34,7 @@ namespace StoreModels
                 {
                     value = new List<int>();
                 }
-                productIds = value;
+                productQuantities = value;
             }
         }
     }

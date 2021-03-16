@@ -51,7 +51,7 @@ namespace StoreMVC.Controllers
                 }
             }
             Tuple<CustomerIndexVM, List<OrderIndexVM>, List<LocationIndexVM>> custOrderTuple = new Tuple<CustomerIndexVM, List<OrderIndexVM>, List<LocationIndexVM>>(
-                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(_cartBL.GetCartByCartId(custId).LocationId)),
+                _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(custId)),
                 OrderList,
                 LocationList
                 );
@@ -121,6 +121,7 @@ namespace StoreMVC.Controllers
                     {
                         Customer createdCustomer = _mapper.cast2Customer(newCustomer);
                         _customerBL.AddCustomer(_mapper.cast2Customer(newCustomer));
+                        int custId = _customerBL.GetCustomerByEmail(newCustomer.CustomerEmail).Id;
                         //create carts for each location
                         foreach(var item in _locationBL.GetLocations())
                         {
@@ -131,7 +132,7 @@ namespace StoreMVC.Controllers
                             newCart.ProductQuantities = new List<int>();
                             _cartBL.AddCart(newCart);
                         }
-                        return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_mapper.cast2Customer(newCustomer)));
+                        return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(custId)));
                     }
                     else
                     {

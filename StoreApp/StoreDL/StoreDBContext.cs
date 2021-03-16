@@ -70,7 +70,7 @@ namespace StoreDL
                 .WithOne(order => order.Location)
                 .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Location>()
-                .HasOne(location => location.Cart)
+                .HasMany(location => location.Carts)
                 .WithOne(cart => cart.Location)
                 .OnDelete(DeleteBehavior.Cascade);
         }
