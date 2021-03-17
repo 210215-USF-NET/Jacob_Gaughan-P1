@@ -232,6 +232,19 @@ namespace StoreMVC.Controllers
                     newCart.ProductQuantities.RemoveAt(i);
                 }
             }
+
+            decimal CartTotal = 0.00m;
+
+            for (int j = 0; j < _cartBL.GetCartByCartId(cartId).ProductIds.Count; j++)
+            {
+                for (int h = 0; h < _cartBL.GetCartByCartId(cartId).ProductQuantities[j]; h++)
+                {
+                    CartTotal += _productBL.GetProductPrice(_cartBL.GetCartByCartId(cartId).ProductIds[j]);
+                }
+            }
+
+            ViewBag.Total = CartTotal;
+
             _cartBL.AddToCart(newCart);
             List<ProductIndexVM> ProductList = new List<ProductIndexVM>();
             foreach (var item in _cartBL.GetCartByCartId(cartId).ProductIds)
