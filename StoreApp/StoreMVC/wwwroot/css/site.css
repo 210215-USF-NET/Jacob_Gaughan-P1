@@ -12,10 +12,19 @@ a {
     color: #0366d6;
 }
 
+.btn {
+    transition: transform .3s ease-out;
+}
+
+.btn:hover {
+    transform: translate(0, -5px);
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+    transition: transform .3s ease-out;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

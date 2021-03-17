@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StoreBL;
 using StoreModels;
 using StoreMVC.Models;
@@ -10,11 +11,13 @@ namespace StoreMVC.Controllers
     {
         private IManagerBL _managerBL;
         private IMapper _mapper;
+        private readonly ILogger<HomeController> _logger;
 
-        public ManagerController(IManagerBL managerBL, IMapper mapper)
+        public ManagerController(IManagerBL managerBL, IMapper mapper, ILogger<HomeController> logger)
         {
             _managerBL = managerBL;
             _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: ManagerController
@@ -48,6 +51,7 @@ namespace StoreMVC.Controllers
                 Manager manager = _managerBL.CheckManagerLoginInfo(manager2Check.ManagerEmail, manager2Check.ManagerPassword);
                 if (manager != null)
                 {
+                    _logger.LogInformation($"Manager Logged in:  Account Email: {manager2Check.ManagerEmail}");
                     return RedirectToAction("Index", _mapper.cast2ManagerIndexVM(_managerBL.GetManagerByEmail(manager2Check.ManagerEmail)));
                 }
                 else

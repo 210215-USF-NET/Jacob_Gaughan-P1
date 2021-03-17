@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StoreBL;
 using StoreModels;
 using StoreMVC.Models;
@@ -16,9 +17,11 @@ namespace StoreMVC.Controllers
         private ICartBL _cartBL;
         private IOrderBL _orderBL;
         private IMapper _mapper;
+        private readonly ILogger<HomeController> _logger;
 
-        public CustomerController(ICustomerBL customerBL, ICartBL cartBL, IMapper mapper, ILocationBL locationBL, IOrderBL orderBL)
+        public CustomerController(ICustomerBL customerBL, ICartBL cartBL, IMapper mapper, ILocationBL locationBL, IOrderBL orderBL, ILogger<HomeController> logger)
         {
+            _logger = logger;
             _locationBL = locationBL;
             _cartBL = cartBL;
             _customerBL = customerBL;
@@ -91,6 +94,7 @@ namespace StoreMVC.Controllers
                             _cartBL.AddCart(newCart);
                         }
                     }
+                    _logger.LogInformation($"User Logged in: Email: {_customerBL.GetCustomerById(custId).CustomerEmail} ID: {custId}");
                     return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerByEmail(customer2Check.CustomerEmail)));
                 }
                 else
@@ -132,6 +136,7 @@ namespace StoreMVC.Controllers
                             newCart.ProductQuantities = new List<int>();
                             _cartBL.AddCart(newCart);
                         }
+                        _logger.LogInformation($"New User Created: Email: {_customerBL.GetCustomerById(custId).CustomerEmail} ID: {custId}");
                         return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(custId)));
                     }
                     else

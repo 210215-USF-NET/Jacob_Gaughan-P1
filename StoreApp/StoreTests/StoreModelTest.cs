@@ -1,6 +1,6 @@
 namespace StoreTests
 {
-    public class StoreTests
+    public class StoreModelTests
     {
     }
 }

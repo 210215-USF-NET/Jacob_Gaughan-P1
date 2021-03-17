@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StoreBL;
 using StoreModels;
 using StoreMVC.Models;
@@ -17,9 +18,11 @@ namespace StoreMVC.Controllers
         private IProductBL _productBL;
         private IOrderBL _orderBL;
         private IMapper _mapper;
+        private readonly ILogger<HomeController> _logger;
 
-        public LocationController(ICustomerBL customerBL, ILocationBL locationBL, IMapper mapper, IProductBL productBL, ICartBL cartBL, IOrderBL orderBL)
+        public LocationController(ICustomerBL customerBL, ILocationBL locationBL, IMapper mapper, IProductBL productBL, ICartBL cartBL, IOrderBL orderBL, ILogger<HomeController> logger)
         {
+            _logger = logger;
             _cartBL = cartBL;
             _locationBL = locationBL;
             _productBL = productBL;
@@ -101,6 +104,7 @@ namespace StoreMVC.Controllers
                 try
                 {
                     _productBL.AddProduct(_mapper.cast2Product(newProduct));
+                    _logger.LogInformation($"New product created: Product name: {newProduct.ProductName} at location {newProduct.LocationId}");
                     return RedirectToAction("ManagerIndex");
                 }
                 catch
@@ -159,6 +163,7 @@ namespace StoreMVC.Controllers
             {
                 try
                 {
+                    _logger.LogInformation($"Location edited: Location ID: {location2Bupdated.Id}");
                     _locationBL.UpdateLocation(_mapper.cast2Location(location2Bupdated));
                     return RedirectToAction(nameof(ManagerIndex));
                 }
@@ -188,6 +193,7 @@ namespace StoreMVC.Controllers
                 try
                 {
                     _productBL.UpdateProduct(_mapper.cast2Product(product2Bupdated));
+                    _logger.LogInformation($"Product Edited: Product name: {product2Bupdated.ProductName} at location {product2Bupdated.LocationId}");
                     return RedirectToAction(nameof(ManagerIndex));
                 }
                 catch
@@ -200,6 +206,7 @@ namespace StoreMVC.Controllers
 
         public ActionResult Delete(int locId)
         {
+            _logger.LogInformation($"Location Deleted: Location ID: {locId}");
             return View(_mapper.cast2LocationEditVM(_locationBL.GetLocationById(locId)));
         }
 
@@ -207,6 +214,7 @@ namespace StoreMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(LocationEditVM location2Bdeleted)
         {
+            _logger.LogInformation($"Location deleted: ID: {location2Bdeleted.Id}");
             _locationBL.DeleteLocation(_mapper.cast2Location(location2Bdeleted));
             return RedirectToAction(nameof(ManagerIndex));
         }
@@ -351,6 +359,7 @@ namespace StoreMVC.Controllers
             {
                 newOrder.ProductIds.Add(item.Id);
             }
+            _logger.LogInformation($"New Order Placed: Customer ID: {newOrder.CustomerId} Location ID: {newOrder.LocationId} Total: {newOrder.Total} Date: {newOrder.Date}");
             _orderBL.AddOrder(newOrder);
             int i = 0;
             foreach (var item in _cartBL.GetCartByCartId(cartId).ProductIds)
