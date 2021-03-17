@@ -41,6 +41,11 @@ namespace StoreMVC.Controllers
             return RedirectToAction("Index", _mapper.cast2CustomerIndexVM(_customerBL.GetCustomerById(custId)));
         }
 
+        public ActionResult AllCustomers()
+        {
+            return View(_customerBL.GetCustomers().Select(customer => _mapper.cast2CustomerIndexVM(customer)).ToList());
+        }
+
         public ActionResult PrevOrders(int custId)
         {
             List<LocationIndexVM> LocationList = _locationBL.GetLocations().Select(location => _mapper.cast2LocationIndexVM(location)).ToList();

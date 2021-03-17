@@ -5,11 +5,17 @@
     Layout = "~/Views/Shared/_ManagerLayout.cshtml";
 }
 
+<div>
+    @Html.ActionLink("View All Customers", "AllCustomers", "Customer", null, new { @class = "btn btn-secondary mb-2" })
+</div>
+
 <h1>Choose a location</h1>
 
 <a asp-action="Create" class="btn btn-primary mb-2">Create new location</a>
 
-<table class="table-dark table table-bordered">
+<input class="input-group my-2 p-1" type="text" id="searchLocationInput" onkeyup="searchLocations()" placeholder="Search by zipcode...">
+
+<table id="locationTable" class="table-dark table table-bordered">
     <thead>
         <tr>
             <th>
@@ -53,3 +59,5 @@
         }
     </tbody>
 </table>
+
+<script src="~/js/sortingLocations.js"></script>
